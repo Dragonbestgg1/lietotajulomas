@@ -1,10 +1,13 @@
-import react from 'react';
-import style from '/login.css';
+import React, { useEffect } from 'react';
+import style from './login.css';
+import { useNavigate } from 'react-router-dom';
 
-function login(){
-    return(
-        <div className={`${style.main}`}>
-            
-        </div>
-    )
+function Login() {
+  return (
+    <div className={style.main}>
+      {/* Your content here */}
+    </div>
+  );
 }
+
+export default Login();
