@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import HomePage from './HomePage.js';
 import Login from './login/index.js';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'http://localhost:8000/api';
+axios.defaults.withCredentials = true;
 
 function App() {
   return (
