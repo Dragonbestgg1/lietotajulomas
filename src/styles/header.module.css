@@ -1,0 +1,25 @@
+.main{
+    width: 100%;
+    height: 7vh;
+    display: flex;
+    background-color: #0058EB;
+    color: white;
+    font-size: 28px;
+    font-weight: bolder;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.header{
+    display: flex;
+    gap: 30px;
+}
+.res{
+    text-decoration: none;
+    color: #FFFFFF;
+    transition: text-shadow 0.3s ease;
+}
+.res:hover{
+    text-shadow: 3px 3px black;
+}
