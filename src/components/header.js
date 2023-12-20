@@ -14,6 +14,8 @@ function Header(){
     <div className={`${styles.main}`}>
       <div className={`${styles.header}`}>
         <a className={`${styles.res}`} href="/" onClick={handleClick}>Home</a>
+        <a className={`${styles.res}`} href="/admin" onClick={handleClick}>Control Panel</a>
+        
         <a className={`${styles.res}`} href="/login" onClick={handleClick}>Login</a>
       </div>
     </div>

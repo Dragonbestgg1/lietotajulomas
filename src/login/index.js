@@ -15,20 +15,20 @@ function Login() {
     return formDataObject;
   }
   
-  function submitHandler(e){
-    e.preventDefault();
-    const data = get_form_object('login_form');
-    axios.post('/login', data).then((res) => {
-      console.log(res);
-    });
-  }
+  // function submitHandler(e){
+  //   e.preventDefault();
+  //   const data = get_form_object('login_form');
+  //   axios.post('/login', data).then((res) => {
+  //     console.log(res);
+  //   });
+  // }
 
-
+  // onSubmit={submitHandler}
   return (
     <div className={`${style.main}`}>
       <div className={`${style.body}`}>
         <div className={`${style.box}`}>
-            <form id='login_form' onSubmit={submitHandler} className={`${style.form}`}>
+            <form id='login_form'  className={`${style.form}`}>
               <h1 className={`${style.h1}`}>Login</h1>
               <input name='username' className={`${style.input}`} placeholder='username'></input>
               <input name='password' type='password' className={`${style.input}`} placeholder='password'></input>
