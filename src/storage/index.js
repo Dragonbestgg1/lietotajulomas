@@ -9,7 +9,7 @@ function Storage(){
     return(
         <div className={`${style.main}`}>
             <div className={`${style.option}`}>
-                <form className={`${style.drop}`} id="dropdown">
+                <form className={`${style.drop}`} id="dropdown">{/*Te ir meklet plauktu */}
                     <select className={`${style.dropdown}`}>
                         <option value="" disabled selected>Choose shelf</option>
                         {shelves.map((shelf, index) => (
@@ -17,11 +17,7 @@ function Storage(){
                         ))}
                     </select>
                 </form>
-                <form className={`${style.src}`} id="src">
-                    {/*Te bus dropdown ar search kopa */}
-                </form>
-                <form>
-                    
+                <form className={`${style.src}`} id="src">{/*Te ir pievienot dropdown */}
                 </form>
             </div>
             <div className={`${style.shelfs}`}>
