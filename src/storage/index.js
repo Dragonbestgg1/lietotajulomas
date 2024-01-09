@@ -4,7 +4,6 @@ import { useState } from "react";
 import axios from 'axios';
 
 function Storage(){
-    // Assuming you have an array of shelves
     const shelves = ['Shelf 1', 'Shelf 2', 'Shelf 3'];
 
     return(
@@ -20,6 +19,9 @@ function Storage(){
                 </form>
                 <form className={`${style.src}`} id="src">
                     {/*Te bus dropdown ar search kopa */}
+                </form>
+                <form>
+                    
                 </form>
             </div>
             <div className={`${style.shelfs}`}>
