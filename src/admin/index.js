@@ -6,7 +6,27 @@ import { useState } from "react";
 function Admin(){
     return(
         <div className={`${style.main}`}>
-            <h1 className={style.title}>Admin Page</h1>
+           <h2>Tabula</h2>
+
+<table>
+  <tr>
+    <th>Kas</th>
+    <th>KKas</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    
+  </tr>
+</table>
         </div>
     )
 }
