@@ -1,26 +1,33 @@
 import React from 'react';
-import style from '../styles/login.module.css';
 import axios from 'axios';
+import Cookies from 'js-cookie'; // Import js-cookie
+import style from '../styles/login.module.css';
 
 function Login() {
   function get_form_object(formId) {
     const form = document.getElementById(formId);
     const formData = new FormData(form);
     const formDataObject = {};
-  
+
     for (const [key, value] of formData.entries()) {
       formDataObject[key] = value;
     }
-  
+
     return formDataObject;
   }
-  
+
   function submitHandler(e){
     e.preventDefault();
     const data = get_form_object('login_form');
     console.log(data);
     axios.post('/login', data).then((res) => {
       console.log(res);
+      // Assuming the response contains a token
+      const token = res.data.token;
+      // Store the token in a cookie
+      Cookies.set('token', token);
+      // Print out success message
+      console.log('You are logged in.');
     });
   }
 

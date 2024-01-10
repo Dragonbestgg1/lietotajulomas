@@ -8,9 +8,9 @@
     font-weight: bolder;
     align-items: center;
     justify-content: center;
-    /* border-bottom-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
-    */
+   
 }
 .header{
     display: flex;
@@ -22,6 +22,6 @@
     transition: text-shadow 0.2s ease;
 }
 .res:hover{
-    text-shadow: 3px 3px white;
+    text-shadow: 3px 3px rgba(255, 255, 255, 0.762);
 }
 
