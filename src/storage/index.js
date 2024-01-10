@@ -45,8 +45,8 @@ function Storage(){
                     <input type="button" className={`${style.ad}`} value="+ Add shelf" />
                 </form>
             </div>
-            <div className={`${style.shelfs}`}>
-                {/*Plaukti*/}
+            <div className={`${style.shelfs}`}>{/*Plaukti*/}
+                
             </div>
         </div>
     )
