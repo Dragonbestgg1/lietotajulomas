@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import style from "../styles/storage.module.css";
-import { useState } from "react";   
 import axios from 'axios';
+import Select from 'react-select';
 
 function Storage(){
-    const shelves = ['Shelf 1', 'Shelf 2', 'Shelf 3'];
+    const [shelves, setShelves] = useState([]);
+
+    useEffect(() => {
+        axios.get('/shelf')
+            .then(response => {
+                const options = response.data.map(shelf => ({ value: shelf, label: shelf }));
+                setShelves(options);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }, []);
 
     return(
         <div className={`${style.main}`}>
             <div className={`${style.option}`}>
                 <form className={`${style.drop}`} id="dropdown">{/*Te ir meklet plauktu */}
-                    <select className={`${style.dropdown}`}>
-                        <option value="" disabled selected>Choose shelf</option>
-                        {shelves.map((shelf, index) => (
-                            <option key={index} value={shelf}>{shelf}</option>
-                        ))}
-                    </select>
+                    <Select 
+                        className={`${style.dropdown}`}
+                        options={shelves}
+                        isSearchable
+                        placeholder="Choose shelf"
+                    />
                 </form>
                 <form className={`${style.src}`} id="src">{/*Te ir pievienot dropdown */}
                 </form>
