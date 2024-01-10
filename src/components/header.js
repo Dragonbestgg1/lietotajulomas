@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/header.module.css';
 
-function Header(){{/*uz tokens bus*/}
+function Header() {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   const handleClick = (event) => {
-      event.preventDefault();
-      navigate(event.currentTarget.getAttribute('href'));
+    event.preventDefault();
+    const href = event.currentTarget.getAttribute('href');
+  
+    if (href === "/login") {
+      if (isLoggedIn) {
+        localStorage.removeItem('token');
+        setIsLoggedIn(false, () => {
+          navigate('/login'); 
+        });
+      } else {
+        navigate('/login'); 
+      }
+    } else {
+      navigate(href);
+    }
   }
-
   return(
     <div className={`${styles.main}`}>
       <div className={`${styles.header}`}>
@@ -19,7 +38,9 @@ function Header(){{/*uz tokens bus*/}
         <a className={`${styles.res}`} href="/orders">Orders</a>
         <a className={`${styles.res}`} href="/reports">Reports</a>
         <a className={`${styles.res}`} href="/storage">Storage</a>
-        <a className={`${styles.res}`} href="/login" onClick={handleClick}>Login</a>
+        <a className={`${styles.res}`} href="/login" onClick={handleClick}>
+          {isLoggedIn ? "Logout" : "Login"}
+        </a>
       </div>
     </div>
   )
