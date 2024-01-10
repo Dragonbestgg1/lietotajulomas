@@ -17,6 +17,18 @@ function Storage(){
             });
     }, []);
 
+    const customStyle = {
+        control: (provided, state) => ({
+            ...provided,
+            minHeight: '30px',
+            height: '60px',
+            width: '250px',
+            minWidth: '150px',
+            boxShadow: state.isFocused ? null : null,
+            borderRadius: '10px'
+        }),
+    };
+
     return(
         <div className={`${style.main}`}>
             <div className={`${style.option}`}>
@@ -26,9 +38,11 @@ function Storage(){
                         options={shelves}
                         isSearchable
                         placeholder="Choose shelf"
+                        styles={customStyle}
                     />
                 </form>
-                <form className={`${style.src}`} id="src">{/*Te ir pievienot dropdown */}
+                <form className={`${style.src}`} id="src">{/*Te ir pievienot Plauktu */}
+                    <input type="button" className={`${style.ad}`} value="+ Add shelf" />
                 </form>
             </div>
             <div className={`${style.shelfs}`}>
