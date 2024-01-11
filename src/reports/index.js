@@ -6,7 +6,7 @@ import axios from 'axios';
 function Reports(){{/*uz tokens bus*/}
     return(
         <div className={`${style.main}`}>
-
+            
         </div>
     )
 }

@@ -2,12 +2,20 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/header.module.css';
 
-function Header(){{/*uz tokens bus*/}
+function Header({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
 
   const handleClick = (event) => {
-      event.preventDefault();
-      navigate(event.currentTarget.getAttribute('href'));
+    event.preventDefault();
+    const href = event.currentTarget.getAttribute('href');
+  
+    if (href === "/login" && isLoggedIn) {
+      setIsLoggedIn(false);
+      localStorage.removeItem('token');
+      navigate('/login'); 
+    } else {
+      navigate(href);
+    }
   }
 
   return(
@@ -19,7 +27,9 @@ function Header(){{/*uz tokens bus*/}
         <a className={`${styles.res}`} href="/orders">Orders</a>
         <a className={`${styles.res}`} href="/reports">Reports</a>
         <a className={`${styles.res}`} href="/storage">Storage</a>
-        <a className={`${styles.res}`} href="/login" onClick={handleClick}>Login</a>
+        <a className={`${styles.res}`} href="/login" onClick={handleClick}>
+          {isLoggedIn ? "Logout" : "Login"}
+        </a>
       </div>
     </div>
   )
