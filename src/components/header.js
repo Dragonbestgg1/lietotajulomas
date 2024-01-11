@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from '../styles/header.module.css';
 
-function Header() {
+function Header({ isLoggedIn, setIsLoggedIn }) {
   const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
 
   const handleClick = (event) => {
     event.preventDefault();
     const href = event.currentTarget.getAttribute('href');
   
-    if (href === "/login") {
-      if (isLoggedIn) {
-        localStorage.removeItem('token');
-        setIsLoggedIn(false, () => {
-          navigate('/login'); 
-        });
-      } else {
-        navigate('/login'); 
-      }
+    if (href === "/login" && isLoggedIn) {
+      setIsLoggedIn(false);
+      localStorage.removeItem('token');
+      navigate('/login'); 
     } else {
       navigate(href);
     }
   }
+
   return(
     <div className={`${styles.main}`}>
       <div className={`${styles.header}`}>

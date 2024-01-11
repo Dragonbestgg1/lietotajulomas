@@ -1,9 +1,9 @@
-body {
+.body {
     font-family: Arial, sans-serif;
     margin: 20px;
   }
   
-  form {
+  .form {
     width: 100%;
     max-width: 550px;
     height: 350px;
