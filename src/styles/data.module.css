@@ -20,7 +20,7 @@
     border: none;
   }
   
-  input[type="text"], select {
+  .input[type="text"], select {
     width: 90%;
     height: 5%;
     padding: 10px;

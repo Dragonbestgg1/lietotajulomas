@@ -19,9 +19,9 @@
 .res{
     text-decoration: none;
     color: #0c0c0c;
-    transition: text-shadow 0.2s ease;
+    transition: color 0.2s ease;
 }
 .res:hover{
-    text-shadow: 3px 3px rgba(255, 255, 255, 0.762);
+    color: white;
 }
 
