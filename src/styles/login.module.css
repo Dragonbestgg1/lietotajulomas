@@ -23,7 +23,7 @@
 .box{
     width: 100%;
     max-width: 550px;
-    height: 350px;
+    height: 400px;
     
     background-color: #5bb4b7;
     border-radius: 30px;
@@ -81,4 +81,12 @@
     padding: 8px 24px;
     opacity: 1;
     scale: 1.1;
+}
+.err{
+    word-break: normal;
+    width: 100%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

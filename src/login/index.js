@@ -1,10 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom'; 
 import style from '../styles/login.module.css';
 
 function Login({ setIsLoggedIn }) {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate(); 
 
   function get_form_object(formId) {
     const form = document.getElementById(formId);
@@ -26,9 +26,10 @@ function Login({ setIsLoggedIn }) {
       const token = res.data.token;
       localStorage.setItem('token', token);
       setIsLoggedIn(true);
-      navigate('/'); // Navigate to homepage
+      navigate('/');
     } catch (error) {
       console.error('Error during login:', error);
+      document.getElementById('password_error').innerText = 'Please check your username and password.';
     }
   }
 
@@ -42,9 +43,10 @@ function Login({ setIsLoggedIn }) {
               <input name='password' type='password' className={`${style.input}`} placeholder='password'></input>
               <button type='submit' className={`${style.submit}`}>Login</button>
             </form>
-          </div>
+          <div id='password_error' className={`${style.err}`}></div>
         </div>
       </div>
+    </div>
   );
 }
 
