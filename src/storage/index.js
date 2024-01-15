@@ -5,11 +5,14 @@ import Select from 'react-select';
 
 function Storage(){
     const [shelves, setShelves] = useState([]);
+    const [showInput, setShowInput] = useState(false); 
+    const [newShelfName, setNewShelfName] = useState(''); 
+    const [message, setMessage] = useState(''); 
 
     useEffect(() => {
         axios.get('/shelf')
             .then(response => {
-                const options = response.data.map(shelf => ({ value: shelf.id, label: shelf.name }));
+                const options = response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }));
                 setShelves(options);
             })
             .catch(error => {
@@ -37,6 +40,25 @@ function Storage(){
         );
     };
 
+    const handleAddShelf = (event) => { 
+        event.preventDefault();
+        if (newShelfName.trim() === '') { 
+            setMessage('Shelf name cannot be empty.');
+            return;
+        }
+        axios.post('/shelf', { name: newShelfName })
+            .then(response => {
+                console.log(response);
+                setNewShelfName('');
+                setShowInput(false);
+                setMessage('Shelf was successfully added!');
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                setMessage('Failed to add shelf.');
+            });
+    };
+
     return(
         <div className={`${style.main}`}>
             <div className={`${style.option}`}>
@@ -51,12 +73,21 @@ function Storage(){
                     />
                 </form>
                 <form className={`${style.src}`} id="src">{/*Forma lai pievienotu plauktus*/}
-                    <input type="button" className={`${style.ad}`} value="+ Add shelf" />
+                    <input type="button" className={`${style.ad}`} value="+ Add shelf" onClick={() => setShowInput(!showInput)} />
                 </form>
             </div>
+            {showInput && ( 
+                <form className={`${style.make}`} id="newShelfForm" onSubmit={handleAddShelf}>
+                    <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={e => setNewShelfName(e.target.value)} />
+                    <input type="submit" value="Submit" />
+                    {message && <div className={`${style.err}`}>{message}</div>} 
+                </form>
+            )}
+            
             <div className={`${style.shelfs}`}>{/*Plaukti*/}
-                
+                {shelves.map(shelf => <div key={shelf.value}>{shelf.label}</div>)}
             </div>
+            
         </div>
     )
 }
