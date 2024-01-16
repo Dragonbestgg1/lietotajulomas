@@ -14,10 +14,17 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
+.wholeProducts{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .shelfs{
     display: flex;
-    width: 100%;
+    width: 20%;
     height: 60%;
+    padding: 10px;
+    gap: 10px;
     flex-direction: column;
     cursor: default;
 }
@@ -54,6 +61,7 @@
     height: 30px !important;
     border-radius: 10px;
     transition: 0.3s ease;
+    
 }
 .make{
     width: 99.5%;
@@ -82,4 +90,47 @@
     color: red;
     font-weight: bold;
     font-size: large;
+}
+.shelfBox{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+.shelfName{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+.products{
+    display: flex;
+    width: 20%;
+    height: 60%;
+    padding: 10px;
+    gap: 10px;
+    flex-direction: column;
+    cursor: default;
+}
+.productsBox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+.productsName{
+    color: gray;
+    font-weight: bold;
+    padding: 5px;
+}
+.productsPrice{
+    font-weight: bold;
+    color: grey;
+}
+.productsImage img {
+
 }

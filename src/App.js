@@ -34,7 +34,7 @@ function App() {
           <Route path="/admin" element={<><Header key={isLoggedIn} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /><Admin /></>} />
           <Route path="/data" element={<><Header key={isLoggedIn} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /><Data /></>} />
           <Route path="/orders" element={<><Header key={isLoggedIn} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /><Orders /></>} />
-          <Route path="/report/:id?" element={<><Header key={isLoggedIn} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /><Reports /></>} />
+          <Route path="/reports" element={<><Header key={isLoggedIn} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /><Reports /></>} />
           <Route path="/storage" element={<><Header key={isLoggedIn} isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} /><Storage /></>} />
         </Routes>
       </div>

@@ -5,6 +5,7 @@ import Select from 'react-select';
 
 function Storage(){
     const [shelves, setShelves] = useState([]);
+    const [items, setItems] = useState([]);
     const [showInput, setShowInput] = useState(false); 
     const [newShelfName, setNewShelfName] = useState(''); 
     const [message, setMessage] = useState(''); 
@@ -14,6 +15,16 @@ function Storage(){
             .then(response => {
                 const options = response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }));
                 setShelves(options);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        axios.get('/items')
+            .then(response => {
+                setItems(response.data);
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -83,11 +94,24 @@ function Storage(){
                     {message && <div className={`${style.err}`}>{message}</div>} 
                 </form>
             )}
-            
-            <div className={`${style.shelfs}`}>{/*Plaukti*/}
-                {shelves.map(shelf => <div key={shelf.value}>{shelf.label}</div>)}
+            <div className={`${style.wholeProducts}`}>
+                <div className={`${style.shelfs}`}>{/*Plaukti*/}
+                    {shelves.map(shelf => 
+                    <div className={`${style.shelfBox}`}>
+                        <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
+                        
+                    </div>
+                    )}
+                </div>
+                <div className={`${style.products}`}>{/*Produkti */}
+                    {/* {items.map((item, index) =>  */}
+                     <div className={`${style.productsBox}`} >{/*key={index} */}
+                         <div className={`${style.productsName}`}>Darzenis</div>{/* {item.name} */}
+                         <div className={`${style.productsPrice}`}>3,00 </div>
+                    </div>
+                    {/* )} */}
+                </div>
             </div>
-            
         </div>
     )
 }
