@@ -108,6 +108,9 @@ function Storage(){
                      <div className={`${style.productsBox}`} >{/*key={index} */}
                          <div className={`${style.productsName}`}>Darzenis</div>{/* {item.name} */}
                          <div className={`${style.productsPrice}`}>3,00 </div>
+                         <div>
+                            <img className={`${style.productsImage}`} src=""></img>{/*Bilde */}
+                         </div>
                     </div>
                     {/* )} */}
                 </div>
