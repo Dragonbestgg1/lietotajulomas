@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 import style from '../styles/login.module.css';
+import Cookies from 'js-cookie';
 
 function Login({ setIsLoggedIn }) {
   const navigate = useNavigate(); 
@@ -24,8 +25,17 @@ function Login({ setIsLoggedIn }) {
     try {
       const res = await axios.post('/login', data);
       const token = res.data.token;
-      localStorage.setItem('token', token);
+      Cookies.set('token', token);
       setIsLoggedIn(true);
+
+      // const resPrivileges = await axios.get(`/users/${res.data.id}`, {
+      //   headers: { Authorization: `Bearer ${token}` }
+      // });
+      // const privileges = resPrivileges.data.privileges;
+
+
+      // Cookies.set('privileges', privileges);
+
       navigate('/');
     } catch (error) {
       console.error('Error during login:', error);

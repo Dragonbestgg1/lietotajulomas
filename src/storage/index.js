@@ -90,7 +90,7 @@ function Storage(){
             {showInput && ( 
                 <form className={`${style.make}`} id="newShelfForm" onSubmit={handleAddShelf}>
                     <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={e => setNewShelfName(e.target.value)} />
-                    <input type="submit" value="Submit" />
+                    <input type="submit" className={`${style.but}`} value="Submit" />
                     {message && <div className={`${style.err}`}>{message}</div>} 
                 </form>
             )}
