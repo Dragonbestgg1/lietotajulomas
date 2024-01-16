@@ -22,6 +22,8 @@ function Header(){{/*uz tokens bus*/}
         <a className={`${styles.res}`} href="/login" onClick={handleClick}>Login</a>
       </div>
     </div>
+    
+   
   )
 }
 
