@@ -12,6 +12,7 @@
 }
 .h1{
     color: black;
+    cursor: default;
 }
 .form{
     display: flex;
@@ -22,7 +23,7 @@
 .box{
     width: 100%;
     max-width: 550px;
-    height: 350px;
+    height: 400px;
     
     background-color: #5bb4b7;
     border-radius: 30px;
@@ -42,6 +43,7 @@
     background: none;
     transition: 0.2s ease;
     color: black;
+    cursor: pointer;
 }
 .input::placeholder{
     color: black;
@@ -74,13 +76,17 @@
     padding: 8px 16px;
     opacity: 0.7;
 }
-/* .submit:hover{
-    text-shadow: 3px 3px black;
-    box-shadow: 3px 3px black;
-} */
 
 .submit:hover{
     padding: 8px 24px;
     opacity: 1;
     scale: 1.1;
+}
+.err{
+    word-break: normal;
+    width: 100%;
+    color: red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
