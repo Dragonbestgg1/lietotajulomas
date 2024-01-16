@@ -62,7 +62,7 @@ function Storage(){
                 console.log(response);
                 setNewShelfName('');
                 setShowInput(false);
-                setMessage('Shelf was successfully added!');
+                
             })
             .catch(error => {
                 console.error('There was an error!', error);
