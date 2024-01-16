@@ -1,9 +1,9 @@
-body {
+.body {
     font-family: Arial, sans-serif;
     margin: 20px;
   }
   
-  form {
+  .form {
     width: 100%;
     max-width: 550px;
     height: 350px;
@@ -20,7 +20,7 @@ body {
     border: none;
   }
   
-  input[type="text"], select {
+  .input[type="text"], select {
     width: 90%;
     height: 5%;
     padding: 10px;
