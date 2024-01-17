@@ -6,7 +6,15 @@ import axios from 'axios';
 function Orders(){
     return(
         <div className={`${style.main}`}>
-            <div class="center">Dati</div>
+            <h2>Pasūtījumu pārvaldība</h2>
+            <table id="myTable">
+    <tr>
+        <th>Pasūtījuma nr.</th>
+        <th>Preces nosaukums</th>
+        <th>Preces cena</th>
+        <th>Statuss</th>
+    </tr>
+</table>
         </div>
     )
 }
