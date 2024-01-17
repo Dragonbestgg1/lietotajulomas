@@ -32,3 +32,19 @@ input[type="text"] {
 h2{
   margin-left: 45%;
 }
+.modal {
+  display: flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: rgba(255, 255, 255, 0.715);
+  flex-direction: column;
+}
+.modalForm{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 40px;
+}
