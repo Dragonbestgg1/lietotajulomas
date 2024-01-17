@@ -21,10 +21,8 @@
     gap: 40px;
 }
 .box{
-    width: 100%;
-    max-width: 550px;
+    width: 550px;
     height: 400px;
-    
     background-color: #5bb4b7;
     border-radius: 30px;
     box-shadow: 7px 7px #509c9e;
@@ -89,4 +87,26 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+@media only screen and (max-width: 900px){
+    .main{
+        width: 185vw;
+        height: 150vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .body{
+        height: 100%;
+    }
+    .box{
+        width: 70%;
+        height: 50%;
+        gap: 10px;
+    }
+    .form{
+        height: 60%;
+        width: 60%;
+        margin-top: 40px;
+    }
 }
