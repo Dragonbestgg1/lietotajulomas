@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import HomePage from './HomePage.js';
@@ -8,6 +8,7 @@ import Data from './data/index.js';
 import Orders from './orders/index.js';
 import Reports from './reports/index.js';
 import Storage from './storage/index.js';
+import ChatBox from './components/chatBox.js';
 import axios from 'axios';
 import { AuthProvider } from './AuthContext'; 
 
@@ -28,6 +29,7 @@ function App() {
             <Route path="/reports" element={<><Header /><Reports /></>} />
             <Route path="/storage" element={<><Header /><Storage /></>} />
           </Routes>
+          <ChatBox /> {/* Include the ChatBox component here */}
         </div>
       </Router>
     </AuthProvider>

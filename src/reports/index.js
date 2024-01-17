@@ -10,12 +10,13 @@ function Reports() {
   const [days, setDays] = useState(7);
 
   useEffect(() => {
-    // Fetch items
     axios.get('/items')
       .then(response => {
         const itemsData = response.data.items;
-        setItems(itemsData);
-        setPriceTotal(itemsData.total_cost);
+        if (itemsData) {
+          setItems(itemsData);
+          setPriceTotal(itemsData.total_cost);
+        }
       })
       .catch(error => {
         console.error('Error fetching items:', error);
@@ -25,18 +26,18 @@ function Reports() {
     axios.get('/orders')
       .then(response => {
         const ordersData = response.data;
-        setOrders(ordersData);
-        setDeliveredTotal(ordersData.delivered_total);
+        if (ordersData) {
+          setOrders(ordersData);
+          setDeliveredTotal(ordersData.delivered_total);
+        }
       })
       .catch(error => {
         console.error('Error fetching orders:', error);
       });
-  }, []); // empty dependency array ensures useEffect runs only once on component mount
+  }, []);
 
   const handleChangeDays = (e) => {
     setDays(e.target.value);
-    // Fetch data again based on the selected number of days
-    // Add your logic to make the API calls with the specified days parameter
   };
 
   return (
@@ -62,7 +63,7 @@ function Reports() {
           </thead>
           {/* Table body */}
           <tbody>
-            {Object.values(items).map(item => (
+            {items && Object.values(items).map(item => (
               <tr key={item.id}>
                 <td>{item.id}</td>
                 <td>{item.name}</td>
