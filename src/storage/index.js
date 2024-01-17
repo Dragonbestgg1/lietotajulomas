@@ -30,7 +30,15 @@ function Storage(){
                 console.error('There was an error!', error);
             });
     }, []);
-
+    // useEffect(() => {
+    //     axios.get('/items',{id})
+    //         .them(response => {
+    //             showItem(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('nabags', error);
+    //         })
+    // })
     const customStyle = {
         control: (provided, state) => ({
             ...provided,
