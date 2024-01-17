@@ -1,6 +1,17 @@
 import React from 'react';
 import "../src/styles/homePage.css";
 
+var today = new Date()
+var curHr = today.getHours()
+
+if (curHr < 12) {
+  console.log('good morning')
+} else if (curHr < 18) {
+  console.log('good afternoon')
+} else {
+  console.log('good evening')
+}
+
 function HomePage() {
   return (
     <div className='main-container'>
