@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
+import { AuthContext } from '../AuthContext'; 
 import style from '../styles/login.module.css';
-import Cookies from 'js-cookie';
 
-function Login({ setIsLoggedIn }) {
+function Login() { 
   const navigate = useNavigate(); 
+  const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext); 
 
   function get_form_object(formId) {
     const form = document.getElementById(formId);
@@ -24,15 +25,12 @@ function Login({ setIsLoggedIn }) {
     const data = get_form_object('login_form');
     try {
       const res = await axios.post('/login', data);
-      const token = res.data.token;
-      Cookies.set('token', token);
+      localStorage.setItem('token', res.data.token); // Store the token in local storage
       setIsLoggedIn(true);
-
       // const resPrivileges = await axios.get(`/users/${res.data.id}`, {
       //   headers: { Authorization: `Bearer ${token}` }
       // });
       // const privileges = resPrivileges.data.privileges;
-
 
       // Cookies.set('privileges', privileges);
 
