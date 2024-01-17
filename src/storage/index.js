@@ -5,6 +5,7 @@ import Select from 'react-select';
 
 function Storage(){
     const [shelves, setShelves] = useState([]);
+    const [items, setItems] = useState([]);
     const [showInput, setShowInput] = useState(false); 
     const [newShelfName, setNewShelfName] = useState(''); 
     const [message, setMessage] = useState(''); 
@@ -20,6 +21,24 @@ function Storage(){
             });
     }, []);
 
+    useEffect(() => {
+        axios.get('/items')
+            .then(response => {
+                setItems(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }, []);
+    // useEffect(() => {
+    //     axios.get('/items',{id})
+    //         .them(response => {
+    //             showItem(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('nabags', error);
+    //         })
+    // })
     const customStyle = {
         control: (provided, state) => ({
             ...provided,
@@ -51,7 +70,7 @@ function Storage(){
                 console.log(response);
                 setNewShelfName('');
                 setShowInput(false);
-                setMessage('Shelf was successfully added!');
+                
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -79,15 +98,31 @@ function Storage(){
             {showInput && ( 
                 <form className={`${style.make}`} id="newShelfForm" onSubmit={handleAddShelf}>
                     <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={e => setNewShelfName(e.target.value)} />
-                    <input type="submit" value="Submit" />
+                    <input type="submit" className={`${style.but}`} value="Submit" />
                     {message && <div className={`${style.err}`}>{message}</div>} 
                 </form>
             )}
-            
-            <div className={`${style.shelfs}`}>{/*Plaukti*/}
-                {shelves.map(shelf => <div key={shelf.value}>{shelf.label}</div>)}
+            <div className={`${style.wholeProducts}`}>
+                <div className={`${style.shelfs}`}>{/*Plaukti*/}
+                    {shelves.map(shelf => 
+                    <div className={`${style.shelfBox}`}>
+                        <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
+                        
+                    </div>
+                    )}
+                </div>
+                <div className={`${style.products}`}>{/*Produkti */}
+                    {/* {items.map((item, index) =>  */}
+                     <div className={`${style.productsBox}`} >{/*key={index} */}
+                         <div className={`${style.productsName}`}>Darzenis</div>{/* {item.name} */}
+                         <div className={`${style.productsPrice}`}>3,00 </div>
+                         <div>
+                            <img className={`${style.productsImage}`} src=""></img>{/*Bilde */}
+                         </div>
+                    </div>
+                    {/* )} */}
+                </div>
             </div>
-            
         </div>
     )
 }

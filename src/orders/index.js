@@ -6,7 +6,7 @@ import axios from 'axios';
 function Orders(){
     return(
         <div className={`${style.main}`}>
-
+            <div class="center">Dati</div>
         </div>
     )
 }
