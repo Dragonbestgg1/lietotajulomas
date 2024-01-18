@@ -13,7 +13,12 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-
+@media only screen and (max-width: 900px) {
+  .App{
+    display: flex;
+    flex-direction: row;
+  }
+}
 .App-header {
   background-color: #3153AE;
   min-height: 100vh;

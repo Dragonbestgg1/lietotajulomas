@@ -36,7 +36,6 @@ function Header() {
     }
   }
 
-  // Check if token exists
   const tokenExists = !!localStorage.getItem('token');
 
   return(

@@ -18,3 +18,9 @@ code {
 #root{
   height: 100vh;
 }
+@media only screen and (max-width: 900px) {
+  html{
+    height: 185vh;
+    width: 185vw;
+  }
+}

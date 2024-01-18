@@ -25,5 +25,16 @@
     color: white;
 }
 @media only screen and (max-width: 900px) {
-    
+    .main{
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        height: 100%;
+        width: 20%;
+    }
+    .header{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
 }
