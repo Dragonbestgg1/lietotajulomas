@@ -4,15 +4,18 @@ import style from "../styles/admin.module.css";
 
 function Admin() {
     const [users, setUsers] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [newUser, setNewUser] = useState({username: '', password: '', privilage: 0});
     const [submitMessage, setSubmitMessage] = useState('');
 
     useEffect(() => {
         axios.get('/users')
             .then(response => {
                 if (Array.isArray(response.data.users)) {
-                    setUsers(response.data.users);
+                    // Store the passwords along with the users
+                    const usersWithPasswords = response.data.users.map(user => ({
+                        ...user,
+                        password: user.password,  // Assuming the password is returned when fetching the users
+                    }));
+                    setUsers(usersWithPasswords);
                 } else {
                     console.log('response.data.users is not an array:', response.data.users);
                 }
@@ -35,26 +38,23 @@ function Admin() {
         }
     }
 
-    const handleInputChange = (event) => {
-        setNewUser({...newUser, [event.target.name]: event.target.value});
-    }
+    const handlePrivilageChange = (event, user) => {
+        const updatedPrivilage = Number(event.target.value); // Convert to number
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        if (!newUser.username || !newUser.password) {
-            setSubmitMessage('Please fill in all fields.');
-            return;
-        }
-        axios.post('/users', newUser)
-            .then(response => {
-                console.log('User created:', response.data);
-                setSubmitMessage('User submitted successfully!');
-                // You might want to update your users list here
-            })
-            .catch(error => {
-                console.error('Error creating user:', error);
-                setSubmitMessage('Error submitting user.');
-            });
+        // Update the user with the current username, password, and the new privilege
+        axios.put(`/users/${user.id}`, {
+            password: user.password,  // Use the stored password
+            privilage: updatedPrivilage
+        })
+        .then(response => {
+            console.log('User updated:', response.data);
+            setSubmitMessage('User updated successfully!');
+            // You might want to update your users list here
+        })
+        .catch(error => {
+            console.error('Error updating user:', error);
+            setSubmitMessage('Error updating user.');
+        });
     }
 
     return (
@@ -62,42 +62,24 @@ function Admin() {
             <h2>Workers</h2>
             <table>
                 <tr>
-                    <th>Name
-                    <button onClick={() => setShowModal(!showModal)}>+</button>
-                    </th>
+                    <th>Name</th>
                     <th>Role</th>
                 </tr>
                 {users.map((user, index) => (
                     <tr key={index}>
                         <td>{user.username}</td>
-                        <td>{getRole(user.privilage)}</td>
+                        <td>
+                            <select value={user.privilage} onChange={(event) => handlePrivilageChange(event, user)}>
+                                <option value={user.privilage}>{getRole(user.privilage)}</option>
+                                {user.privilage !== 2 && <option value="2">Admin</option>}
+                                {user.privilage !== 1 && <option value="1">Warehouse Worker</option>}
+                                {user.privilage !== 0 && <option value="0">Shelf Sorter</option>}
+                            </select>
+                        </td>
                     </tr>
                 ))}
             </table>
-            {showModal && (
-                <div className={style.modal}>
-                    <form className={`${style.modalForm}`} onSubmit={handleSubmit}>
-                        <label>
-                            Name:
-                            <input type="text" name="username" onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Password:
-                            <input type="password" name="password" onChange={handleInputChange} />
-                        </label>
-                        <label>
-                            Privilage:
-                            <select name="privilage" onChange={handleInputChange}>
-                                <option value="0">Shelf Sorter</option>
-                                <option value="1">Warehouse Worker</option>
-                                <option value="2">Admin</option>
-                            </select>
-                        </label>
-                        <input type="submit" value="Submit" />
-                    </form>
-                    <p>{submitMessage}</p>
-                </div>
-            )}
+            <p>{submitMessage}</p>
         </div>
     );
 }
