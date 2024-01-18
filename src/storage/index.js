@@ -30,15 +30,7 @@ function Storage(){
                 console.error('There was an error!', error);
             });
     }, []);
-    // useEffect(() => {
-    //     axios.get('/items',{id})
-    //         .them(response => {
-    //             showItem(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('nabags', error);
-    //         })
-    // })
+
     const customStyle = {
         control: (provided, state) => ({
             ...provided,
@@ -81,7 +73,7 @@ function Storage(){
     return(
         <div className={`${style.main}`}>
             <div className={`${style.option}`}>
-                <form className={`${style.drop}`} id="dropdown">{/*Forma lai izveletos plauktu*/}
+                <form className={`${style.drop}`} id="dropdown">
                     <Select 
                         className={`${style.dropdown}`}
                         options={shelves}
@@ -91,7 +83,7 @@ function Storage(){
                         filterOption={filterOption}
                     />
                 </form>
-                <form className={`${style.src}`} id="src">{/*Forma lai pievienotu plauktus*/}
+                <form className={`${style.src}`} id="src">
                     <input type="button" className={`${style.ad}`} value="+ Add shelf" onClick={() => setShowInput(!showInput)} />
                 </form>
             </div>
@@ -103,24 +95,32 @@ function Storage(){
                 </form>
             )}
             <div className={`${style.wholeProducts}`}>
-                <div className={`${style.shelfs}`}>{/*Plaukti*/}
+                <div className={`${style.shelfs}`}>
                     {shelves.map(shelf => 
                     <div className={`${style.shelfBox}`}>
                         <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
-                        
+                        {items.filter(item => item.shelf_id === shelf.value).map(filteredItem => (
+                            <div className={`${style.productsBox}`}>
+                                <div className={`${style.productsName}`}>{filteredItem.name}</div>
+                                <div className={`${style.productsPrice}`}>{filteredItem.price}</div>
+                                <div>
+                                    <img className={`${style.productsImage}`} src={filteredItem.image_url}></img>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                     )}
                 </div>
-                <div className={`${style.products}`}>{/*Produkti */}
-                    {/* {items.map((item, index) =>  */}
-                     <div className={`${style.productsBox}`} >{/*key={index} */}
-                         <div className={`${style.productsName}`}>Darzenis</div>{/* {item.name} */}
-                         <div className={`${style.productsPrice}`}>3,00 </div>
-                         <div>
-                            <img className={`${style.productsImage}`} src=""></img>{/*Bilde */}
-                         </div>
-                    </div>
-                    {/* )} */}
+                <div className={`${style.products}`}>
+                    {items.map(item => (
+                        <div className={`${style.productsBox}`}>
+                            <div className={`${style.productsName}`}>{item.name}</div>
+                            <div className={`${style.productsPrice}`}>{item.price}</div>
+                            <div>
+                                <img className={`${style.productsImage}`} src={item.image_url}></img>
+                            </div>
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>
