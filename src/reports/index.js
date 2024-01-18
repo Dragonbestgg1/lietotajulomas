@@ -41,76 +41,78 @@ function Reports() {
   };
 
   return (
-    <div className={style.reportsContainer}>
-      <h1>Reports</h1>
-      <label>
-        Days before:
-        <input type="number" value={days} onChange={handleChangeDays} />
-      </label>
+    <div className={`${style.main}`}>
+      <div className={style.reportsContainer}>
+        <h1>Reports</h1>
+        <label>
+          Days before:
+          <input type="number" value={days} onChange={handleChangeDays} />
+        </label>
 
-      {/* Display Items Table */}
-      <div>
-        <h2>Items Table</h2>
-        <table className={style.table}>
-          {/* Table header */}
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Image</th>
-            </tr>
-          </thead>
-          {/* Table body */}
-          <tbody>
-            {items && Object.values(items).map(item => (
-              <tr key={item.id}>
-                <td>{item.id}</td>
-                <td>{item.name}</td>
-                <td>{item.price}</td>
-                <td>
-                  <img src={item.image_url} alt={item.name} className={style.image} />
-                </td>
+        {/* Display Items Table */}
+        <div>
+          <h2>Items Table</h2>
+          <table className={style.table}>
+            {/* Table header */}
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Image</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {/* Total cost */}
-        <p>Total Cost: {priceTotal}</p>
-      </div>
+            </thead>
+            {/* Table body */}
+            <tbody>
+              {items && Object.values(items).map(item => (
+                <tr key={item.id}>
+                  <td>{item.id}</td>
+                  <td>{item.name}</td>
+                  <td>{item.price}</td>
+                  <td>
+                    <img src={item.image_url} alt={item.name} className={style.image} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {/* Total cost */}
+          <p>Total Cost: {priceTotal}</p>
+        </div>
 
-      {/* Display Orders Table */}
-      <div>
-        <h2>Orders Table</h2>
-        <table className={style.table}>
-          {/* Table header */}
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Item ID</th>
-              <th>Postal Code</th>
-              <th>Country</th>
-              <th>City</th>
-              <th>Delivered</th>
-            </tr>
-          </thead>
-          {/* Table body */}
-          <tbody>
-            {orders.map(order => (
-              <tr key={order.id}>
-                <td>{order.id}</td>
-                <td>{order.item_id}</td>
-                <td>{order.postal_code}</td>
-                <td>{order.country}</td>
-                <td>{order.city}</td>
-                <td>{order.delivered ? 'Yes' : 'No'}</td>
+        {/* Display Orders Table */}
+        <div>
+          <h2>Orders Table</h2>
+          <table className={style.table}>
+            {/* Table header */}
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Item ID</th>
+                <th>Postal Code</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Delivered</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        {/* Total price and delivered */}
-        <p>Total Price: {priceTotal}</p>
-        <p>Total Delivered: {deliveredTotal}</p>
+            </thead>
+            {/* Table body */}
+            <tbody>
+              {orders.map(order => (
+                <tr key={order.id}>
+                  <td>{order.id}</td>
+                  <td>{order.item_id}</td>
+                  <td>{order.postal_code}</td>
+                  <td>{order.country}</td>
+                  <td>{order.city}</td>
+                  <td>{order.delivered ? 'Yes' : 'No'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {/* Total price and delivered */}
+          <p>Total Price: {priceTotal}</p>
+          <p>Total Delivered: {deliveredTotal}</p>
+        </div>
       </div>
     </div>
   );

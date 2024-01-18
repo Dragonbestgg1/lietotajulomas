@@ -36,6 +36,8 @@ function Header() {
     }
   }
 
+  // Check if token exists
+  const tokenExists = !!localStorage.getItem('token');
 
   return(
     <div className={`${styles.main}`}>
@@ -44,7 +46,7 @@ function Header() {
         {userPrivilage < 3 && userPrivilage >= 2 && <a className={`${styles.res}`} href="/admin">Control Panel</a>}
         {userPrivilage < 3 && userPrivilage >= 1 && <a className={`${styles.res}`} href="/data">Data</a>}
         {userPrivilage < 3 && userPrivilage >= 1 && <a className={`${styles.res}`} href="/orders">Orders</a>}
-        {userPrivilage < 3 && userPrivilage >= 0 && <a className={`${styles.res}`} href="/reports">Reports</a>}
+        {tokenExists && userPrivilage < 3 && userPrivilage >= 0 && <a className={`${styles.res}`} href="/reports">Reports</a>} {/* Render Reports link only if token exists */}
         {userPrivilage < 3 && (userPrivilage === 2 || userPrivilage === 0) && <a className={`${styles.res}`} href="/storage">Storage</a>}
         <a className={`${styles.res}`} href="/login" onClick={handleClick}>
           {isLoggedIn ? "Logout" : "Login"}

@@ -1,5 +1,8 @@
 /* reports.module.css */
-
+.main{
+  height: 90%;
+  overflow-y: hidden;
+}
 .reportsContainer {
     max-width: 800px;
     margin: 0 auto;
