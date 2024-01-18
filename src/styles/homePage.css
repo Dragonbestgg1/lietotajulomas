@@ -1,6 +1,7 @@
 .main-container{
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
     padding: 5px;
     margin: 20px;
     height: 80vh;
@@ -10,9 +11,10 @@
 }
 
 .bottom-left {
-    position: absolute;
-    bottom: 50%;
-    left: 3%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; 
     font-size: 50px;
     cursor: default;
 }
@@ -22,3 +24,9 @@
       width:350px;
     }
   }
+
+img{
+  
+  width: 60%;
+  height: 90%;
+}
