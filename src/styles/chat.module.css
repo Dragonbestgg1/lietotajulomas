@@ -1,39 +1,84 @@
 .chatBox {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 300px;
-    height: 400px;
-    border: 1px solid black;
-    padding: 10px;
-    background-color: white;
-    transition: height 0.5s ease-in-out;
-  }
-  
-  .chatBoxClosed {
-    height: 30px;
-    overflow: hidden;
-    transition: height 0.5s ease-in-out;
-  }
-  
-  .header {
-    cursor: pointer;
-    background-color: #ddd; 
-    text-align: right; 
-    width: 300px; 
-    float: right; 
-  }
-  
-  .messages {
-    height: 80%;
-    overflow-y: auto;
-  }
-  
-  .input {
-    width: 100%;
-  }
-  
-  .button {
-    width: 100%;
-  }
-  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: fixed;
+  bottom: 1px;
+  right: 5px;
+  width: 300px;
+  height: 400px;
+  overflow-x: hidden;
+  border: 1px solid black;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  background-color: white;
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(0);
+}
+
+.chatBoxClosed {
+  position: fixed;
+  height: 400px;
+  width: 300px;
+  bottom: 1px;
+  right: 5px;
+  overflow: hidden;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(calc(100% - 30px)); 
+}
+
+.header {
+  cursor: pointer;
+  background-color: rgb(201, 201, 201);
+  text-align: right; 
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  border-bottom: 1px solid black;
+  width: 280px;
+  padding: 10px; 
+  height: 7%;
+  float: right; 
+  font-weight: bold;
+}
+
+.send{
+  display: flex;
+  width: 97%;
+  height: 30%;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 10px;
+  gap: 5px;
+  padding: 5px;
+}
+
+.messages {
+  width: 95%;
+  padding: 5px;
+  height: 65%;
+  overflow-y: auto;
+}
+
+.input {
+  width: 95% !important;
+  height: 40% !important;
+  border-radius: 5px;
+}
+
+.button {
+  height: 43%;
+  width: 15%;
+  border-radius: 5px;
+  background-color: #aebbc0;
+  padding: 5px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+.button:hover{
+  color: white;
+}

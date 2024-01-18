@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../styles/chat.module.css';
+import { FaArrowRight } from 'react-icons/fa'; // Import the FaArrowRight icon
 
 function ChatBox() {
   const [messages, setMessages] = useState([]);
@@ -24,22 +25,20 @@ function ChatBox() {
       <div onClick={toggleChatBox} className={styles.header}>
         {isOpen ? 'X' : '^'}
       </div>
-      {isOpen && (
-        <>
-          <div className={styles.messages}>
-            {messages.map((message, index) => (
-              <p key={index}>{message}</p>
-            ))}
-          </div>
-          <input
-            type="text"
-            value={input}
-            onChange={handleInputChange}
-            className={styles.input}
-          />
-          <button onClick={handleSend} className={styles.button}>Send</button>
-        </>
-      )}
+      <div className={styles.messages}>
+        {messages.map((message, index) => (
+          <p key={index}>{message}</p>
+        ))}
+      </div>
+      <div className={`${styles.send}`}>
+        <input
+          type="text"
+          value={input}
+          onChange={handleInputChange}
+          className={styles.input}
+        />
+        <button onClick={handleSend} className={styles.button}><FaArrowRight /></button>
+      </div>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/header';
 import HomePage from './HomePage.js';
@@ -10,7 +10,8 @@ import Reports from './reports/index.js';
 import Storage from './storage/index.js';
 import ChatBox from './components/chatBox.js';
 import axios from 'axios';
-import { AuthProvider } from './AuthContext'; 
+import { AuthProvider, AuthContext } from './AuthContext'; 
+import '../src/styles/App.css'
 
 axios.defaults.baseURL = 'http://localhost:8000/api';
 axios.defaults.withCredentials = true;
@@ -29,11 +30,17 @@ function App() {
             <Route path="/reports" element={<><Header /><Reports /></>} />
             <Route path="/storage" element={<><Header /><Storage /></>} />
           </Routes>
-          <ChatBox /> {/* Include the ChatBox component here */}
+          <RenderChatBox />
         </div>
       </Router>
     </AuthProvider>
   );
+}
+
+function RenderChatBox() {
+  const { isLoggedIn } = useContext(AuthContext);
+
+  return isLoggedIn ? <ChatBox /> : null;
 }
 
 export default App;
