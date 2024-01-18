@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import style from "../styles/data.module.css";
 import axios from 'axios';
+import Select from 'react-select';
 
 class Data extends Component {
   state = {
@@ -9,17 +10,27 @@ class Data extends Component {
   };
 
   componentDidMount() {
-    axios.get('/shelves')
+    axios.get('/shelf')
       .then(response => {
-        this.setState({ shelves: response.data });
-      })
-      .catch(error => {
-        console.error('Error fetching shelves:', error);
+        const options = response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }));
+        this.setState({ shelves: options });
       });
   }
 
   render() {
     const { errorMessage, shelves } = this.state;
+    const customStyle = {
+      control: (provided, state) => ({
+        ...provided,
+        minHeight: '30px',
+        height: '100%',
+        width: '100%',
+        minWidth: '150px',
+        alignItems: 'center',
+        boxShadow: state.isFocused ? null : null,
+        borderRadius: '10px'
+      }),
+    };
 
     return (
       <div className={`${style.main}`}>
@@ -41,11 +52,13 @@ class Data extends Component {
 
               <div className={`${style.inputContainer}`}>
                 <label htmlFor="shelf">Shelf:</label>
-                <select name="shelf" className={`${style.input}`} required>
-                  {shelves.map(shelf => (
-                    <option key={shelf.id} value={shelf.id}>{shelf.name}</option>
-                  ))}
-                </select>
+                <Select 
+                  name="shelf"
+                  options={shelves}
+                  className={`${style.input}`}
+                  styles={customStyle}
+                  required
+                />
               </div>
 
               <div className={`${style.inputContainer}`}>
@@ -77,24 +90,32 @@ class Data extends Component {
       formDataObject[key] = value;
     });
 
-    if (this.isValidImageURL(formDataObject["productImg"])) {
-      try {
-        await axios.post('/items', {
-          shelf_id: formDataObject["shelf"],
-          name: formDataObject["productName"],
-          price: parseFloat(formDataObject["productPrice"]),
-          image_url: formDataObject["productImg"],
-        });
+    if (!formDataObject["productName"] || !formDataObject["shelf"] || !formDataObject["productPrice"] || !formDataObject["productImg"]) {
+      this.setState({ errorMessage: "All fields are required." });
+      return;
+    }
 
-        this.setState({ errorMessage: null });
-        console.log("Product added successfully!");
-
-      } catch (error) {
-        console.error("Error adding product:", error);
-        this.setState({ errorMessage: "Error adding product. Please try again later." });
-      }
-    } else {
+    if (!this.isValidImageURL(formDataObject["productImg"])) {
       this.setState({ errorMessage: "Invalid image URL. Please provide a valid image URL." });
+      return;
+    }
+
+    try {
+      await axios.post('/items', {
+        shelf_id: formDataObject["shelf"],
+        name: formDataObject["productName"],
+        price: parseFloat(formDataObject["productPrice"]),
+        image_url: formDataObject["productImg"],
+      });
+
+      this.setState({ errorMessage: null });
+
+      console.log("Product added successfully!");
+
+    } catch (error) {
+      console.error("Error adding product:", error);
+
+      this.setState({ errorMessage: "Error adding product. Please try again later." });
     }
   };
 

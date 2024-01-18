@@ -1,130 +1,130 @@
-import React, { Component } from "react";
-import style from "../styles/data.module.css";
+import React, { useState, useEffect } from "react";
+import style from "../styles/storage.module.css";
 import axios from 'axios';
 import Select from 'react-select';
 
-class Data extends Component {
-  state = {
-    errorMessage: null,
-    shelves: [],
-  };
+function Storage(){
+    const [shelves, setShelves] = useState([]);
+    const [items, setItems] = useState([]);
+    const [showInput, setShowInput] = useState(false); 
+    const [newShelfName, setNewShelfName] = useState(''); 
+    const [message, setMessage] = useState(''); 
 
-  componentDidMount() {
-    axios.get('/shelf')
-      .then(response => {
-        const options = response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }));
-        this.setState({ shelves: options });
-      });
-  }
+    useEffect(() => {
+        axios.get('/shelf')
+            .then(response => {
+                const options = response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }));
+                setShelves(options);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }, []);
 
-  render() {
-    const { errorMessage, shelves } = this.state;
+    useEffect(() => {
+        axios.get('/items')
+            .then(response => {
+                setItems(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }, []);
+    // useEffect(() => {
+    //     axios.get('/items',{id})
+    //         .them(response => {
+    //             showItem(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('nabags', error);
+    //         })
+    // })
     const customStyle = {
-      control: (provided, state) => ({
-        ...provided,
-        minHeight: '30px',
-        height: '100%',
-        width: '100%',
-        minWidth: '150px',
-        alignItems: 'center',
-        boxShadow: state.isFocused ? null : null,
-        borderRadius: '10px'
-      }),
+        control: (provided, state) => ({
+            ...provided,
+            minHeight: '30px',
+            height: '100%',
+            width: '250px',
+            minWidth: '150px',
+            alignItems: 'center',
+            boxShadow: state.isFocused ? null : null,
+            borderRadius: '10px'
+        }),
     };
 
-    return (
-      <div className={`${style.main}`}>
-        <div className={`${style.body}`}>
-          <div className={`${style.box}`}>
-            <form id="productForm" className={`${style.form}`} onSubmit={this.submitHandler}>
-              <h1 className={`${style.h1}`}>Add Product</h1>
+    const filterOption = (option, inputValue) => {
+        return (
+            option.label.toLowerCase().includes(inputValue.toLowerCase()) ||
+            option.value.toString().includes(inputValue)
+        );
+    };
 
-              {errorMessage && (
-                <div className={`${style.error}`}>
-                  <p>{errorMessage}</p>
+    const handleAddShelf = (event) => { 
+        event.preventDefault();
+        if (newShelfName.trim() === '') { 
+            setMessage('Shelf name cannot be empty.');
+            return;
+        }
+        axios.post('/shelf', { name: newShelfName })
+            .then(response => {
+                console.log(response);
+                setNewShelfName('');
+                setShowInput(false);
+                
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                setMessage('Failed to add shelf.');
+            });
+    };
+
+    return(
+        <div className={`${style.main}`}>
+            <div className={`${style.option}`}>
+                <form className={`${style.drop}`} id="dropdown">{/*Forma lai izveletos plauktu*/}
+                    <Select 
+                        className={`${style.dropdown}`}
+                        options={shelves}
+                        isSearchable
+                        placeholder="Choose shelf"
+                        styles={customStyle}
+                        filterOption={filterOption}
+                    />
+                </form>
+                <form className={`${style.src}`} id="src">{/*Forma lai pievienotu plauktus*/}
+                    <input type="button" className={`${style.ad}`} value="+ Add shelf" onClick={() => setShowInput(!showInput)} />
+                </form>
+            </div>
+            {showInput && ( 
+                <form className={`${style.make}`} id="newShelfForm" onSubmit={handleAddShelf}>
+                    <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={e => setNewShelfName(e.target.value)} />
+                    <input type="submit" className={`${style.but}`} value="Submit" />
+                    {message && <div className={`${style.err}`}>{message}</div>} 
+                </form>
+            )}
+            <div className={`${style.wholeProducts}`}>
+                <div className={`${style.shelfs}`}>{/*Plaukti*/}
+                    {shelves.map(shelf => 
+                    <div className={`${style.shelfBox}`}>
+                        <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
+                        
+                    </div>
+                    )}
                 </div>
-              )}
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productName">Product Name:</label>
-                <input name="productName" className={`${style.input}`} placeholder="Product Name" required />
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="shelf">Shelf:</label>
-                <Select 
-                  name="shelf"
-                  options={shelves}
-                  className={`${style.input}`}
-                  styles={customStyle}
-                  required
-                />
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productPrice">Product Price:</label>
-                <input name="productPrice" type="number" step="0.01" className={`${style.input}`} placeholder="Product Price" required />
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productImg">Product Image URL:</label>
-                <input name="productImg" className={`${style.input}`} placeholder="Product Image URL" required />
-              </div>
-
-              <button type="submit" className={`${style.submit}`}>
-                Add Product
-              </button>
-            </form>
-          </div>
+                <div className={`${style.products}`}>{/*Produkti */}
+                    {/* {items.map((item, index) =>  */}
+                     <div className={`${style.productsBox}`} >{/*key={index} */}
+                         <div className={`${style.productsName}`}>Darzenis</div>{/* {item.name} */}
+                         <div className={`${style.productsPrice}`}>3,00 </div>
+                         <div>
+                            <img className={`${style.productsImage}`} src=""></img>{/*Bilde */}
+                         </div>
+                    </div>
+                    {/* )} */}
+                </div>
+            </div>
         </div>
-      </div>
-    );
-  }
-
-  submitHandler = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const formDataObject = {};
-
-    formData.forEach((value, key) => {
-      formDataObject[key] = value;
-    });
-
-    if (!formDataObject["productName"] || !formDataObject["shelf"] || !formDataObject["productPrice"] || !formDataObject["productImg"]) {
-      this.setState({ errorMessage: "All fields are required." });
-      return;
-    }
-
-    if (!this.isValidImageURL(formDataObject["productImg"])) {
-      this.setState({ errorMessage: "Invalid image URL. Please provide a valid image URL." });
-      return;
-    }
-
-    try {
-      await axios.post('/items', {
-        shelf_id: formDataObject["shelf"],
-        name: formDataObject["productName"],
-        price: parseFloat(formDataObject["productPrice"]),
-        image_url: formDataObject["productImg"],
-      });
-
-      this.setState({ errorMessage: null });
-
-      console.log("Product added successfully!");
-
-    } catch (error) {
-      console.error("Error adding product:", error);
-
-      this.setState({ errorMessage: "Error adding product. Please try again later." });
-    }
-  };
-
-  isValidImageURL = (url) => {
-    const imageExtensions = ["jpg", "jpeg", "png", "gif"];
-    const lowercasedURL = url.toLowerCase();
-
-    return imageExtensions.some((extension) => lowercasedURL.endsWith(`.${extension}`));
-  };
+    )
 }
 
-export default Data;
+export default Storage;
