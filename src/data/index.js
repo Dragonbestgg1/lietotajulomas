@@ -5,10 +5,21 @@ import axios from 'axios';
 class Data extends Component {
   state = {
     errorMessage: null,
+    shelves: [],
   };
 
+  componentDidMount() {
+    axios.get('/shelves')
+      .then(response => {
+        this.setState({ shelves: response.data });
+      })
+      .catch(error => {
+        console.error('Error fetching shelves:', error);
+      });
+  }
+
   render() {
-    const { errorMessage } = this.state;
+    const { errorMessage, shelves } = this.state;
 
     return (
       <div className={`${style.main}`}>
@@ -29,11 +40,11 @@ class Data extends Component {
               </div>
 
               <div className={`${style.inputContainer}`}>
-                <label htmlFor="productCategory">Product Category:</label>
-                <select name="productCategory" className={`${style.input}`} required>
-                  <option value="electronics">Electronics</option>
-                  <option value="clothing">Clothing</option>
-                  <option value="home">Home Goods</option>
+                <label htmlFor="shelf">Shelf:</label>
+                <select name="shelf" className={`${style.input}`} required>
+                  {shelves.map(shelf => (
+                    <option key={shelf.id} value={shelf.id}>{shelf.name}</option>
+                  ))}
                 </select>
               </div>
 
@@ -66,37 +77,28 @@ class Data extends Component {
       formDataObject[key] = value;
     });
 
-    // Validate image URL
     if (this.isValidImageURL(formDataObject["productImg"])) {
       try {
-        // Make Axios POST request to create a new product
         await axios.post('/items', {
-          shelf_id: formDataObject["productCategory"],
+          shelf_id: formDataObject["shelf"],
           name: formDataObject["productName"],
           price: parseFloat(formDataObject["productPrice"]),
           image_url: formDataObject["productImg"],
         });
 
-        // Reset error message if successful
         this.setState({ errorMessage: null });
-
-        // Optionally, you can provide feedback to the user, e.g., redirect or display a success message.
         console.log("Product added successfully!");
 
       } catch (error) {
         console.error("Error adding product:", error);
-
-        // Set error message for user feedback
         this.setState({ errorMessage: "Error adding product. Please try again later." });
       }
     } else {
-      // Set error message for invalid image URL
       this.setState({ errorMessage: "Invalid image URL. Please provide a valid image URL." });
     }
   };
 
   isValidImageURL = (url) => {
-    // Simple check for image URL by checking if it ends with common image file extensions
     const imageExtensions = ["jpg", "jpeg", "png", "gif"];
     const lowercasedURL = url.toLowerCase();
 
