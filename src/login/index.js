@@ -25,14 +25,8 @@ function Login() {
     const data = get_form_object('login_form');
     try {
       const res = await axios.post('/login', data);
-      localStorage.setItem('token', res.data.token); // Store the token in local storage
+      localStorage.setItem('token', res.data.token);
       setIsLoggedIn(true);
-      // const resPrivileges = await axios.get(`/users/${res.data.id}`, {
-      //   headers: { Authorization: `Bearer ${token}` }
-      // });
-      // const privileges = resPrivileges.data.privileges;
-
-      // Cookies.set('privileges', privileges);
 
       navigate('/');
     } catch (error) {
