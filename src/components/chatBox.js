@@ -12,7 +12,6 @@ function ChatBox() {
   useEffect(() => {
     axios.get('/com')
       .then(response => {
-        console.log('Messages:', response.data.Messages); // Debugging line
         setMessages(response.data.Messages);
       })
       .catch(error => {
@@ -31,7 +30,6 @@ function ChatBox() {
   const handleSend = () => {
     axios.post('/com', { message: input, whom })
       .then(response => {
-        console.log('Response:', response); // Debugging line
         setMessages([...messages, input]);
         setInput('');
       })

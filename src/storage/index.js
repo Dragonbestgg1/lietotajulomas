@@ -95,32 +95,38 @@ function Storage(){
                 </form>
             )}
             <div className={`${style.wholeProducts}`}>
-                <div className={`${style.shelfs}`}>
-                    {shelves.map(shelf => 
-                    <div className={`${style.shelfBox}`}>
-                        <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
-                        {items.filter(item => item.shelf_id === shelf.value).map(filteredItem => (
+                <div className={`${style.shelfWrap}`}>
+                    <h1 className={`${style.h1}`}>Shelfs</h1>
+                    <div className={`${style.shelfs}`}>
+                        {shelves.map(shelf => 
+                        <div className={`${style.shelfBox}`}>
+                            <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
+                            {items.filter(item => item.shelf_id === shelf.value).map(filteredItem => (
+                                <div className={`${style.productsBox}`}>
+                                    <div className={`${style.productsName}`}>{filteredItem.name}</div>
+                                    <div className={`${style.productsPrice}`}>{filteredItem.price}</div>
+                                    <div>
+                                        <img className={`${style.productsImage}`} src={filteredItem.image_url}></img>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        )}
+                    </div>
+                </div>
+                <div className={`${style.productsWrap}`}>
+                    <h1 className={`${style.h2}`}>Products</h1>
+                    <div className={`${style.products}`}>
+                        {items.map(item => (
                             <div className={`${style.productsBox}`}>
-                                <div className={`${style.productsName}`}>{filteredItem.name}</div>
-                                <div className={`${style.productsPrice}`}>{filteredItem.price}</div>
+                                <div className={`${style.productsName}`}>{item.name}</div>
+                                <div className={`${style.productsPrice}`}>{item.price}</div>
                                 <div>
-                                    <img className={`${style.productsImage}`} src={filteredItem.image_url}></img>
+                                    <img className={`${style.productsImage}`} src={item.image_url}></img>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    )}
-                </div>
-                <div className={`${style.products}`}>
-                    {items.map(item => (
-                        <div className={`${style.productsBox}`}>
-                            <div className={`${style.productsName}`}>{item.name}</div>
-                            <div className={`${style.productsPrice}`}>{item.price}</div>
-                            <div>
-                                <img className={`${style.productsImage}`} src={item.image_url}></img>
-                            </div>
-                        </div>
-                    ))}
                 </div>
             </div>
         </div>

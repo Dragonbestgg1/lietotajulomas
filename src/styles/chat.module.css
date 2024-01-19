@@ -15,6 +15,7 @@
   background-color: white;
   transition: transform 0.5s ease-in-out;
   transform: translateY(0);
+  word-break: normal;
 }
 
 .chatBoxClosed {
@@ -58,10 +59,14 @@
 }
 
 .messages {
+  display: flex;
   width: 95%;
-  padding: 5px;
+  padding: 10px;
   height: 65%;
   overflow-y: auto;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .input {
