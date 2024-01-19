@@ -22,19 +22,24 @@
 .shelfs,
 .products{ 
     display: flex;
-    width: 40%;
-    height: 80%;
     padding: 10px;
-    gap: 10px;
-    flex-direction: column;
+    gap: 15px;
+    flex-direction: row;
     cursor: default;
-    overflow-y: auto;
+    overflow: auto;
     scrollbar-width: thin;
     scrollbar-color: white gray;
+}
+.products{
+    flex-direction: column;
+    overflow-y: auto;
+    min-width: 50%;
+    max-height: 80%;
 }
 .shelfs::-webkit-scrollbar,
 .products::-webkit-scrollbar { 
     width: 12px;
+    height: 9px;
 }
 .shelfs::-webkit-scrollbar-track,
 .products::-webkit-scrollbar-track { 
@@ -51,7 +56,7 @@
     width: 50%;
     color: black;
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
 }
 .dropdown{
     display: flex;
@@ -133,6 +138,7 @@
     padding: 10px;
     background-color: white;
     border-radius: 10px;
+    min-width: 40%;
 }
 .shelfName{
     display: flex;
@@ -148,6 +154,7 @@
     padding: 10px;
     background-color: white;
     border-radius: 10px;
+    min-width: 40%;
 }
 .productsName{
     color: gray;
@@ -166,6 +173,24 @@
 }
 .hidden{
     display: none;
+}
+.h1,
+.h2{
+    font-weight: bold;
+    font-size: xx-large;
+    border-bottom: 3px solid black;
+    width: 70%;
+}
+.h2{
+    width: 50%;
+}
+.shelfWrap, 
+.productsWrap{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
 }
 @media only screen and (max-width: 900px) {
     .drop{
