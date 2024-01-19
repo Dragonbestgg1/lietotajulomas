@@ -10,10 +10,9 @@ function Admin() {
         axios.get('/users')
             .then(response => {
                 if (Array.isArray(response.data.users)) {
-                    // Store the passwords along with the users
                     const usersWithPasswords = response.data.users.map(user => ({
                         ...user,
-                        password: user.password,  // Assuming the password is returned when fetching the users
+                        password: user.password, 
                     }));
                     setUsers(usersWithPasswords);
                 } else {
@@ -39,17 +38,15 @@ function Admin() {
     }
 
     const handlePrivilageChange = (event, user) => {
-        const updatedPrivilage = Number(event.target.value); // Convert to number
+        const updatedPrivilage = Number(event.target.value);
 
-        // Update the user with the current username, password, and the new privilege
         axios.put(`/users/${user.id}`, {
-            password: user.password,  // Use the stored password
+            password: user.password,  
             privilage: updatedPrivilage
         })
         .then(response => {
             console.log('User updated:', response.data);
             setSubmitMessage('User updated successfully!');
-            // You might want to update your users list here
         })
         .catch(error => {
             console.error('Error updating user:', error);

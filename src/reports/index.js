@@ -10,31 +10,31 @@ function Reports() {
   const [days, setDays] = useState(7);
 
   useEffect(() => {
-    axios.get('/items')
-      .then(response => {
-        const itemsData = response.data.items;
-        if (itemsData) {
-          setItems(itemsData);
-          setPriceTotal(itemsData.total_cost);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching items:', error);
-      });
+   
 
-    // Fetch orders
-    axios.get('/orders')
-      .then(response => {
-        const ordersData = response.data;
-        if (ordersData) {
-          setOrders(ordersData);
-          setDeliveredTotal(ordersData.delivered_total);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching orders:', error);
-      });
-  }, []);
+    axios.get('/report?days=' + days)
+    .then(response => {
+      console.log(response.data);
+      
+      // items
+      const itemsData = response.data.items;
+      if (itemsData) {
+        setItems(itemsData);
+        setPriceTotal(itemsData.total_cost);
+      }
+
+      // orders
+      if (response.data.orders) {
+        setOrders(response.data.orders);
+        setDeliveredTotal(response.data.delivered_total);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching items:', error);
+    });
+
+    
+  }, [days]);
 
   const handleChangeDays = (e) => {
     setDays(e.target.value);
