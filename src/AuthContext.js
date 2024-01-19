@@ -1,15 +1,13 @@
 import React, { createContext, useState } from 'react';
 
-// Create a context
 export const AuthContext = createContext();
 
-// Create a provider component
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-  const [userPrivilage, setUserPrivilage] = useState(null); // Add this line
+  const [userPrivilage, setUserPrivilage] = useState(null); 
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, userPrivilage, setUserPrivilage }}> {/* Include userPrivilage and setUserPrivilage here */}
+    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, userPrivilage, setUserPrivilage }}>
       {children}
     </AuthContext.Provider>
   );
