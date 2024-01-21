@@ -5,6 +5,8 @@ import style from "../styles/admin.module.css";
 function Admin() {
     const [users, setUsers] = useState([]);
     const [submitMessage, setSubmitMessage] = useState('');
+    const [newUser, setNewUser] = useState({username: '', password: '', privilage: 0});
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         axios.get('/users')
@@ -54,12 +56,33 @@ function Admin() {
         });
     }
 
+    const handleAddUser = () => {
+        if (!newUser.username || !newUser.password) {
+            setSubmitMessage('Please fill in all fields.');
+            return;
+        }
+
+        axios.post('/users', newUser)
+        .then(response => {
+            console.log('User added:', response.data);
+            setSubmitMessage('User added successfully!');
+            setUsers([...users, response.data]);
+            setShowModal(false);
+        })
+        .catch(error => {
+            console.error('Error adding user:', error);
+            setSubmitMessage('Error adding user.');
+        });
+    }
+
     return (
         <div className={style.main}>
             <h2>Workers</h2>
             <table>
                 <tr>
-                    <th>Name</th>
+                    <th>Name
+                        <button onClick={() => setShowModal(!showModal)}>+</button>
+                    </th>
                     <th>Role</th>
                 </tr>
                 {users.map((user, index) => (
@@ -76,6 +99,20 @@ function Admin() {
                     </tr>
                 ))}
             </table>
+            {showModal && (
+                <div className={style.modal}>
+                    <h2>Add User</h2>
+                    <input type="text" value={newUser.username} onChange={(e) => setNewUser({...newUser, username: e.target.value})} placeholder="Enter new user name" />
+                    <input type="password" value={newUser.password} onChange={(e) => setNewUser({...newUser, password: e.target.value})} placeholder="Enter password" />
+                    <select value={newUser.privilage} onChange={(e) => setNewUser({...newUser, privilage: Number(e.target.value)})}>
+                        <option value="2">Admin</option>
+                        <option value="1">Warehouse Worker</option>
+                        <option value="0">Shelf Sorter</option>
+                    </select>
+                    <button onClick={handleAddUser}>Submit</button>
+                    <button onClick={() => setShowModal(false)}>Cancel</button>
+                </div>
+            )}
             <p>{submitMessage}</p>
         </div>
     );

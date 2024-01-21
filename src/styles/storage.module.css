@@ -205,8 +205,11 @@
         flex-direction: column;
         gap: 50px;
     }
+    .products,
     .shelfs{
         width: 80%;
+        height: 300px;
+        overflow: auto;
         gap: 20px;
     }
     .shelfBox{
@@ -216,6 +219,7 @@
     .productsBox{
         font-weight: bold;
         font-size: x-large;
+        gap: 30px;
     }
     .option{
         padding: 10px;
@@ -226,5 +230,11 @@
     .src{
         align-items: flex-end;
         padding: 20px;
+    }
+    .but{
+        width: 20%;
+    }
+    .make{
+        width: 98.5%;
     }
 }
