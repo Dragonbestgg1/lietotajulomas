@@ -28,7 +28,8 @@ class Data extends Component {
         minWidth: '150px',
         alignItems: 'center',
         boxShadow: state.isFocused ? null : null,
-        borderRadius: '10px'
+        borderRadius: '10px',
+        background: 'none'
       }),
     };
 
