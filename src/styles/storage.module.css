@@ -88,6 +88,10 @@
     background-color: white;
     border: 1px solid black;
 }
+.input:focus{
+    box-shadow: none !important;
+    border: 1px solid black;
+}
 
 .input:hover::placeholder {
     color: black;
