@@ -74,13 +74,25 @@ function Admin() {
             setSubmitMessage('Error adding user.');
         });
     }
-
+    const handleDeleteUser = (userId) => {
+        axios.delete(`/users/${userId}`)
+        .then(response => {
+            console.log('User deleted:', response.data);
+            setSubmitMessage('User deleted successfully!');
+            setUsers(users.filter(user => user.id !== userId));
+        })
+        .catch(error => {
+            console.error('Error deleting user:', error);
+            setSubmitMessage('Error deleting user.');
+        });
+    }
+    
     return (
         <div className={style.main}>
             <h2>Workers</h2>
             <table>
                 <tr>
-                    <th>Name
+                    <th className={`${style.th}`}>Name
                         <button onClick={() => setShowModal(!showModal)}>+</button>
                     </th>
                     <th>Role</th>
@@ -88,28 +100,30 @@ function Admin() {
                 {users.map((user, index) => (
                     <tr key={index}>
                         <td>{user.username}</td>
-                        <td>
+                        <td className={`${style.th}`}>
                             <select value={user.privilage} onChange={(event) => handlePrivilageChange(event, user)}>
                                 <option value={user.privilage}>{getRole(user.privilage)}</option>
                                 {user.privilage !== 2 && <option value="2">Admin</option>}
                                 {user.privilage !== 1 && <option value="1">Warehouse Worker</option>}
                                 {user.privilage !== 0 && <option value="0">Shelf Sorter</option>}
                             </select>
+                            <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
                         </td>
+                            
                     </tr>
                 ))}
             </table>
             {showModal && (
                 <div className={style.modal}>
                     <h2>Add User</h2>
-                    <input type="text" value={newUser.username} onChange={(e) => setNewUser({...newUser, username: e.target.value})} placeholder="Enter new user name" />
-                    <input type="password" value={newUser.password} onChange={(e) => setNewUser({...newUser, password: e.target.value})} placeholder="Enter password" />
+                    <input type="text" value={newUser.username} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, username: e.target.value})} placeholder="Enter new user name" />
+                    <input type="password" value={newUser.password} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, password: e.target.value})} placeholder="Enter new user password" />
                     <select value={newUser.privilage} onChange={(e) => setNewUser({...newUser, privilage: Number(e.target.value)})}>
                         <option value="2">Admin</option>
                         <option value="1">Warehouse Worker</option>
                         <option value="0">Shelf Sorter</option>
                     </select>
-                    <button onClick={handleAddUser}>Submit</button>
+                    <button onClick={handleAddUser}>Add User</button>
                     <button onClick={() => setShowModal(false)}>Cancel</button>
                 </div>
             )}
