@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Modal from 'react-modal';
 import style from "../styles/storage.module.css";
 import axios from 'axios';
@@ -12,11 +11,17 @@ function Storage(){
     const [newShelfName, setNewShelfName] = useState(''); 
     const [message, setMessage] = useState(''); 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+    const [selectedShelf, setSelectedShelf] = useState(null);
+    const [editItem, setEditItem] = useState(null);
+    const [editProduct, setEditProduct] = useState(null); // new state variable for editing product
 
     useEffect(() => {
         axios.get('/shelf')
             .then(response => {
-                const options = response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }));
+                const options = [{ value: null, label: "Select all shelves" }].concat(
+                    response.data.map(shelf => ({ value: shelf.id, label: `${shelf.id}. ${shelf.name}` }))
+                );
                 setShelves(options);
             })
             .catch(error => {
@@ -73,14 +78,52 @@ function Storage(){
             });
     };
 
-    const handleOnDragEnd = (result) => {
-        if (!result.destination) return;
-        const itemsCopy = Array.from(items);
-        const [reorderedItem] = itemsCopy.splice(result.source.index, 1);
-        itemsCopy.splice(result.destination.index, 0, reorderedItem);
+    const handleShelfEdit = (shelfId) => {
+        const itemsToEdit = items.filter(item => item.shelf_id === shelfId);
+        setEditItem(itemsToEdit);
+        openModal();
+    };
 
-        setItems(itemsCopy);
-        // Make API call to update the items in the database
+    const handleProductEdit = (productId) => {
+        const productToEdit = items.find(item => item.id === productId);
+        setEditProduct(productToEdit);
+        openModal();
+    };
+
+    const handleEditSubmit = (event) => {
+        event.preventDefault();
+        axios.put(`/items/${editProduct.id}`, editProduct)
+            .then(response => {
+                console.log(response);
+                axios.get('/items') // fetch the updated list of products
+                    .then(response => {
+                        setItems(response.data);
+                    })
+                    .catch(error => {
+                        console.error('There was an error!', error);
+                    });
+                closeModal();
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    };
+
+    const handleDeleteShelf = (shelfId) => {
+        setIsConfirmModalOpen(true);
+    };
+
+    const handleConfirmDelete = (shelfId) => {
+        axios.delete(`/shelf/${shelfId}`)
+            .then(response => {
+                console.log(response);
+                closeModal();
+                setIsConfirmModalOpen(false);
+                setItems(items.map(item => item.shelf_id === shelfId ? {...item, shelf_id: 0} : item));
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
     };
 
     const openModal = () => {
@@ -90,88 +133,124 @@ function Storage(){
     const closeModal = () => {
         setIsModalOpen(false);
     };
-
-    const handleShelfEdit = (shelfId) => {
-        // Logic to edit shelf
-    };
-
     return(
-        <DragDropContext onDragEnd={handleOnDragEnd}>
-            <div className={`${style.main}`}>
-                <div className={`${style.option}`}>
-                    <form className={`${style.drop}`} id="dropdown">
-                        <Select 
-                            className={`${style.dropdown}`}
-                            options={shelves}
-                            isSearchable
-                            placeholder="Choose shelf"
-                            styles={customStyle}
-                            filterOption={filterOption}
-                        />
-                    </form>
-                    <form className={`${style.src}`} id="src">
-                        <input type="button" className={`${style.ad}`} value="+ Add shelf" onClick={() => setShowInput(!showInput)} />
-                    </form>
-                </div>
-                {showInput && ( 
-                    <form className={`${style.make}`} id="newShelfForm" onSubmit={handleAddShelf}>
-                        <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={e => setNewShelfName(e.target.value)} />
-                        <input type="submit" className={`${style.but}`} value="Submit" />
-                        {message && <div className={`${style.err}`}>{message}</div>} 
-                    </form>
-                )}
-                <div className={`${style.wholeProducts}`}>
-                    <div className={`${style.shelfWrap}`}>
-                        <h1 className={`${style.h1}`}>Shelves</h1>
-                        <div className={`${style.shelfs}`}>
-                            {shelves.map(shelf => 
-                            <div className={`${style.shelfBox}`}>
-                                <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
-                                {items.filter(item => item.shelf_id === shelf.value).map(filteredItem => (
-                                    <div className={`${style.productsBox}`}>
-                                        <div className={`${style.productsName}`}>{filteredItem.name}</div>
-                                        <div className={`${style.productsPrice}`}>{filteredItem.price}</div>
-                                        <div>
-                                            <img className={`${style.productsImage}`} src={filteredItem.image_url}></img>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                            )}
-                        </div>
-                    </div>
-                    <div className={`${style.productsWrap}`}>
-                        <h1 className={`${style.h2}`}>Products</h1>
-                        <Droppable droppableId="items">
-                            {(provided) => (
-                                <div className={`${style.products}`} {...provided.droppableProps} ref={provided.innerRef}>
-                                    {items.map((item, index) => (
-                                        <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <div className={`${style.productsBox}`} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                    <div className={`${style.productsName}`}>{item.name}</div>
-                                                    <div className={`${style.productsPrice}`}>{item.price}</div>
-                                                    <div>
-                                                        <img className={`${style.productsImage}`} src={item.image_url}></img>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
-                    </div>
-                </div>
-                {isModalOpen && (
-                    <Modal isOpen={isModalOpen} onRequestClose={closeModal}>
-                        {/* Add form to edit shelf */}
-                    </Modal>
-                )}
+        <div className={`${style.main}`}>
+            <div className={`${style.option}`}>
+                <form className={`${style.drop}`} id="dropdown">
+                    <Select 
+                        className={`${style.dropdown}`}
+                        options={shelves}
+                        isSearchable
+                        placeholder="Choose shelf"
+                        styles={customStyle}
+                        filterOption={filterOption}
+                        onChange={setSelectedShelf}
+                    />
+                </form>
+                <form className={`${style.src}`} id="src">
+                    <input type="button" className={`${style.ad}`} value="+ Add shelf" onClick={() => setShowInput(!showInput)} />
+                </form>
             </div>
-        </DragDropContext>
+            {showInput && ( 
+                <form className={`${style.make}`} onSubmit={handleAddShelf}>
+                    <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={(e) => setNewShelfName(e.target.value)} />
+                    <input type="submit" className={`${style.but}`} value="Submit" />
+                    {message && <div className={`${style.err}`}>{message}</div>} 
+                </form>
+            )}
+            <div className={`${style.wholeProducts}`}>
+                <div className={`${style.shelfWrap}`}>
+                    <h1 className={`${style.h1}`}>Shelves</h1>
+                    <div className={`${style.shelfs}`}>
+                        {(selectedShelf && selectedShelf.value !== null ? shelves.filter(shelf => shelf.value === selectedShelf.value) : shelves).map(shelf => 
+                            shelf.value !== null && (
+                                <div className={`${style.shelfBox}`} onClick={() => handleShelfEdit(shelf.value)}>
+                                    <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
+                                    {items.filter(item => item.shelf_id === shelf.value).map(filteredItem => (
+                                        <div className={`${style.productsBox}`}>
+                                            <div className={`${style.productsName}`} onClick={() => handleProductEdit(filteredItem.id)}>{filteredItem.name}</div>
+                                            <div className={`${style.productsPrice}`}>{filteredItem.price}</div>
+                                            <div className={`${style.productsCount}`}>{filteredItem.count}</div>
+                                            <div>
+                                                <img className={`${style.productsImage}`} src={filteredItem.image_url}></img>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
+                <div className={`${style.productsWrap}`}>
+                    <h1 className={`${style.h2}`}>Products</h1>
+                    <div className={`${style.products}`}>
+                        {items.map(item => (
+                            <div className={`${style.productsBox}`}>
+                                <div className={`${style.productsName}`} onClick={() => handleProductEdit(item.id)}>{item.name}</div>
+                                <div className={`${style.productsPrice}`}>{item.price}</div>
+                                <div className={`${style.productsCount}`}>{item.count}</div>
+                                <div>
+                                    <img className={`${style.productsImage}`} src={item.image_url}></img>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            {isModalOpen && editProduct && (
+                <Modal isOpen={isModalOpen} onRequestClose={closeModal} className={`${style.modal}`}>
+                    <form onSubmit={handleEditSubmit} className={`${style.modalForm}`}>
+                        <h2>{editProduct.name}</h2>
+                        <div className={`${style.row}`}>
+                            <label>Shelf ID:</label>
+                            <input type="number" className={`${style.input}`} value={editProduct.shelf_id || 0} onChange={(e) => setEditProduct({...editProduct, shelf_id: e.target.value})} />
+                        </div>
+                        <div className={`${style.row}`}>
+                            <label>Price:</label>
+                            <input type="number" className={`${style.input}`} value={editProduct.price} onChange={(e) => setEditProduct({...editProduct, price: e.target.value})} />
+                        </div>
+                        <div className={`${style.row}`}>
+                            <label>Count:</label>
+                            <input type="number" className={`${style.input}`} value={editProduct.count} onChange={(e) => setEditProduct({...editProduct, count: e.target.value})} />
+                        </div>
+                        <input type="submit" className={`${style.but1}`} value="Submit" />
+                    </form>
+                </Modal>
+            )}
+            {isModalOpen && editItem && (
+                <Modal isOpen={isModalOpen} onRequestClose={closeModal} className={`${style.modal}`}>
+                    {editItem.map((item, index) => (
+                        <form key={index} onSubmit={(e) => handleEditSubmit(e, item.id)} className={`${style.modalForm}`}>
+                            <h2>{item.name}</h2>
+                            <div className={`${style.row}`}>
+                                <label>Shelf ID:</label>
+                                <input type="number" className={`${style.input}`} value={item.shelf_id} onChange={(e) => setEditItem(editItem.map((it, idx) => idx === index ? {...it, shelf_id: e.target.value} : it))} />
+                            </div>
+                            <div className={`${style.row}`}>
+                                <label>Price:</label>
+                                <input type="number" className={`${style.input}`} value={item.price} onChange={(e) => setEditItem(editItem.map((it, idx) => idx === index ? {...it, price: e.target.value} : it))} />
+                            </div>
+                            <div className={`${style.row}`}>
+                                <label>Count:</label>
+                                <input type="number" className={`${style.input}`} value={item.count} onChange={(e) => setEditItem(editItem.map((it, idx) => idx === index ? {...it, count: e.target.value} : it))} />
+                            </div>
+                            <input type="submit" className={`${style.but1}`} value="Submit" />
+                        </form>
+                    ))}
+                    <button className={`${style.butDel}`} onClick={() => handleDeleteShelf(editItem[0].shelf_id)}>Delete Shelf</button>
+                </Modal>
+            )}
+            {isConfirmModalOpen && (
+                <Modal isOpen={isConfirmModalOpen} onRequestClose={() => setIsConfirmModalOpen(false)} className={`${style.modalDel}`}>
+                    <h2>Are you sure you want to delete this shelf?</h2>
+                    <div className={`${style.modalRow}`}>
+                        <button className={`${style.butDel}`} onClick={() => handleConfirmDelete(editItem[0].shelf_id)}>Confirm</button>
+                        <button className={`${style.butDec}`} onClick={() => setIsConfirmModalOpen(false)}>Decline</button>
+                    </div>
+                </Modal>
+            )}
+        </div>
     )
-}
-
+  }  
 export default Storage;
+    
