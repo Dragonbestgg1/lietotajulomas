@@ -45,6 +45,11 @@
     border-radius: 0px !important;
     margin-left: 0px !important;
 }
+.input:focus{
+    outline: none;
+    border-color: black;
+    box-shadow: none;
+}
 .input::placeholder{
     color: black;
 }
