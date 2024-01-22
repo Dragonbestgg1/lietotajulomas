@@ -40,7 +40,9 @@ function Storage(){
             minWidth: '150px',
             alignItems: 'center',
             boxShadow: state.isFocused ? null : null,
-            borderRadius: '10px'
+            borderRadius: '10px',
+            background: '#3abfc4',
+            border: '1px solid #3abfc4'
         }),
     };
 
@@ -76,6 +78,7 @@ function Storage(){
                 <form className={`${style.drop}`} id="dropdown">
                     <Select 
                         className={`${style.dropdown}`}
+                        id="select"
                         options={shelves}
                         isSearchable
                         placeholder="Choose shelf"
