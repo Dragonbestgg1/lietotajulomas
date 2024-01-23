@@ -18,8 +18,8 @@ body {
   margin: 20px;
   padding: 20px;
   border-radius: 15px;
-  background-color: #5bb4b7;
-  box-shadow: 7px 7px #509c9e;
+  background-color: white;
+  box-shadow: 7px 7px rgba(142, 142, 142, 0.73);
 }
 
 /* Table Styles */
@@ -38,7 +38,6 @@ th, td {
 }
 
 th {
-  background-color: #3abfc4;
   color: #333;
 }
 
@@ -51,11 +50,9 @@ th {
 input {
   width: 50px;
   padding: 10px;
-  border: 1px solid #3abfc4;
   border-radius: 8px;
   margin-left: 10px;
   transition: 0.3s;
-  background-color: #3abfc4;
 }
 
 input:focus {
