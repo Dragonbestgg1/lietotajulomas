@@ -111,3 +111,15 @@ input[type="text"] {
 select:not(:-internal-list-box) {
   border: 5px solid black;
 }
+.butAdd{
+
+}
+.butDel{
+  
+}
+.butCon{
+
+}
+.butCan{
+
+}
