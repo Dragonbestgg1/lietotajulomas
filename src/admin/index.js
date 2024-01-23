@@ -144,6 +144,7 @@ function Admin() {
                 <tr>
                     <th className={`${style.th}`}>Name
                         <button onClick={() => setShowModal(!showModal)}>+</button>
+                        <button className={`${style.butAdd}`} onClick={() => setShowModal(!showModal)}>+</button>
                     </th>
                     <th>Role</th>
                 </tr>
@@ -158,7 +159,7 @@ function Admin() {
                                 {user.privilage !== 0 && <option value="0">Shelf Sorter</option>}
                             </select>
                             <div className={`${style.column}`}>
-                                <button onClick={() => handleDeleteUser(user.id, user.privilage)}>Delete</button>
+                                <button className={`${style.butDel}`} onClick={() => handleDeleteUser(user.id, user.privilage)}>Delete</button>
                             </div>
                         </td>
                     </tr>
@@ -179,8 +180,8 @@ function Admin() {
             {userToDelete && (
                 <Modal isOpen={!!userToDelete} onRequestClose={() => setUserToDelete(null)}>
                     <h2>Are you sure you want to delete this user?</h2>
-                    <button onClick={confirmDeleteUser}>Yes</button>
-                    <button onClick={() => setUserToDelete(null)}>No</button>
+                    <button className={`${style.butCon}`} onClick={confirmDeleteUser}>Yes</button>
+                    <button className={`${style.butCan}`} onClick={() => setUserToDelete(null)}>No</button>
                 </Modal>
             )}
             <div>{submitMessage}</div>
