@@ -165,7 +165,7 @@ function Admin() {
                 ))}
             </table>
             {showModal && (
-                <Modal isOpen={showModal} onRequestClose={() => setShowModal(false)}>
+                <Modal isOpen={showModal} className={`${style.modal}`} onRequestClose={() => setShowModal(false)}>{/*Te var izmerus pasam modal ietaisit. stili ir pie className pec style. kas ir rakstits ta ir stila klase*/}
                     <input type="text" value={newUser.username} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, username: e.target.value})} placeholder="Enter new user name" />
                     <input type="password" value={newUser.password} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, password: e.target.value})} placeholder="Enter new user password" />
                     <select value={newUser.privilage} onChange={(e) => setNewUser({...newUser, privilage: Number(e.target.value)})}>
@@ -173,8 +173,7 @@ function Admin() {
                         <option value="1">Warehouse Worker</option>
                         <option value="0">Shelf Sorter</option>
                     </select>
-                    <button onClick={handleAddUser}>Add User</button>
-                    <button onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className={`${style.modalBut}`} onClick={handleAddUser}>Add User</button>{/*Te pogai var mainit stilu. stili ir pie className pec style. kas ir rakstits ta ir stila klase*/}
                 </Modal>
             )}
             {userToDelete && (
