@@ -29,23 +29,54 @@ input[type="text"] {
     width: 200px; 
     height: 50px; 
 }
-
-h2{
-  margin-left: 45%;
-}
 .modal {
   display: flex;
   position: fixed;
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 1000;
   background-color: rgba(255, 255, 255, 0.715);
   flex-direction: column;
+  gap: 10px;
 }
 .modalForm{
   display: flex;
   flex-direction: column;
   gap: 20px;
   padding: 40px;
+}
+.input{
+  width: 40% !important; 
+  height: 10% !important;
+}
+.but{
+  width: 20%;
+  height: 30%;
+  border-radius: 10px;
+  font-weight: bold;
+  background-color: black;
+  color: white;
+}
+.th{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
