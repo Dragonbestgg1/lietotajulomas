@@ -14,7 +14,7 @@ function Storage(){
     const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
     const [selectedShelf, setSelectedShelf] = useState(null);
     const [editItem, setEditItem] = useState(null);
-    const [editProduct, setEditProduct] = useState(null); // new state variable for editing product
+    const [editProduct, setEditProduct] = useState(null); 
 
     useEffect(() => {
         axios.get('/shelf')
@@ -95,7 +95,7 @@ function Storage(){
         axios.put(`/items/${editProduct.id}`, editProduct)
             .then(response => {
                 console.log(response);
-                axios.get('/items') // fetch the updated list of products
+                axios.get('/items') 
                     .then(response => {
                         setItems(response.data);
                     })
@@ -166,14 +166,18 @@ function Storage(){
                             shelf.value !== null && (
                                 <div className={`${style.shelfBox}`} onClick={() => handleShelfEdit(shelf.value)}>
                                     <div className={`${style.shelfName}`} key={shelf.value}>{shelf.label}</div>
+                                    <div className={`${style.values}`}>
+                                        <h1 className={`${style.h3}`}>Name</h1>
+                                        <h1 className={`${style.h3}`}>Price</h1>
+                                        <h1 className={`${style.h3}`}>count</h1>
+                                        <h1 className={`${style.h3}`}>Image</h1>
+                                    </div>
                                     {items.filter(item => item.shelf_id === shelf.value).map(filteredItem => (
                                         <div className={`${style.productsBox}`}>
                                             <div className={`${style.productsName}`} onClick={() => handleProductEdit(filteredItem.id)}>{filteredItem.name}</div>
                                             <div className={`${style.productsPrice}`}>{filteredItem.price}</div>
                                             <div className={`${style.productsCount}`}>{filteredItem.count}</div>
-                                            <div>
-                                                <img className={`${style.productsImage}`} src={filteredItem.image_url}></img>
-                                            </div>
+                                                <img className={`${style.shelfImage}`} src={filteredItem.image_url}></img>
                                         </div>
                                     ))}
                                 </div>
