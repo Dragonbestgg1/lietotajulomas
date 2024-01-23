@@ -41,19 +41,35 @@ function Admin() {
                 return 'Unknown';
         }
     }
-
+    const roleToPrivilage = (role) => {
+        switch(role) {
+            case 'Admin':
+                return 2;
+            case 'Warehouse Worker':
+                return 1;
+            case 'Shelf Sorter':
+                return 0;
+            default:
+                return -1;
+        }
+    }
+    
     const handlePrivilageChange = (event, user) => {
         if (user.token === loggedInUserToken) {
             setSubmitMessage('You cannot change your own privilege.');
             return;
         }
-
-        const updatedPrivilage = Number(event.target.value);
-
-        axios.put(`/users/${user.id}`, {
-            password: user.password,  
-            privilage: updatedPrivilage
-        })
+    
+        const updatedPrivilage = Number(event.target.value);  // directly use the number
+    
+        const data = {
+            password: user.password,  // send the existing password
+            privilage: updatedPrivilage  // send the privilege number
+        };
+    
+        console.log('Sending request with data:', data);  // print the data being sent
+    
+        axios.put(`/users/${user.id}`, data)
         .then(response => {
             console.log('User updated:', response.data);
             setSubmitMessage('User updated successfully!');
@@ -63,7 +79,7 @@ function Admin() {
             setSubmitMessage('Error updating user.');
         });
     }
-
+    
     const handleAddUser = () => {
         if (!newUser.username || !newUser.password) {
             setSubmitMessage('Please fill in all fields.');
@@ -149,7 +165,7 @@ function Admin() {
                 ))}
             </table>
             {showModal && (
-                <Modal isOpen={showModal} onRequestClose={() => setShowModal(false)}>
+                <Modal isOpen={showModal} className={`${style.modal}`} onRequestClose={() => setShowModal(false)}>{/*Te var izmerus pasam modal ietaisit. stili ir pie className pec style. kas ir rakstits ta ir stila klase*/}
                     <input type="text" value={newUser.username} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, username: e.target.value})} placeholder="Enter new user name" />
                     <input type="password" value={newUser.password} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, password: e.target.value})} placeholder="Enter new user password" />
                     <select value={newUser.privilage} onChange={(e) => setNewUser({...newUser, privilage: Number(e.target.value)})}>
@@ -157,8 +173,7 @@ function Admin() {
                         <option value="1">Warehouse Worker</option>
                         <option value="0">Shelf Sorter</option>
                     </select>
-                    <button onClick={handleAddUser}>Add User</button>
-                    <button onClick={() => setShowModal(false)}>Cancel</button>
+                    <button className={`${style.modalBut}`} onClick={handleAddUser}>Add User</button>{/*Te pogai var mainit stilu. stili ir pie className pec style. kas ir rakstits ta ir stila klase*/}
                 </Modal>
             )}
             {userToDelete && (
