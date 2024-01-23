@@ -52,6 +52,11 @@ class Data extends Component {
               </div>
 
               <div className={`${style.inputContainer}`}>
+                <label htmlFor="productCount">Product Count:</label>
+                <input name="productCount" type="number" className={`${style.input}`} placeholder="Product Count" required />
+              </div>
+
+              <div className={`${style.inputContainer}`}>
                 <label htmlFor="shelf">Shelf:</label>
                 <Select 
                   name="shelf"
@@ -91,7 +96,7 @@ class Data extends Component {
       formDataObject[key] = value;
     });
 
-    if (!formDataObject["productName"] || !formDataObject["shelf"] || !formDataObject["productPrice"] || !formDataObject["productImg"]) {
+    if (!formDataObject["productName"] || !formDataObject["productCount"] || !formDataObject["shelf"] || !formDataObject["productPrice"] || !formDataObject["productImg"]) {
       this.setState({ errorMessage: "All fields are required." });
       return;
     }
@@ -107,6 +112,7 @@ class Data extends Component {
         name: formDataObject["productName"],
         price: parseFloat(formDataObject["productPrice"]),
         image_url: formDataObject["productImg"],
+        count: parseFloat(formDataObject["productCount"])
       });
 
       this.setState({ errorMessage: null });

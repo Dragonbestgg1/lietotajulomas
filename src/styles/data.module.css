@@ -20,8 +20,7 @@
   flex-direction: column;
   align-items: center;
   padding: 40px; /* Increased padding */
-  background-color: #5bb4b7;
-  box-shadow: 7px 7px #509c9e;
+  box-shadow: 7px 7px rgba(142, 142, 142, 0.73);
 }
 
 .form {
@@ -49,7 +48,7 @@
 }
 
 label {
-  color: #555; /* Slightly lighter text color */
+  color: black;
   font-size: 14px; /* Smaller font size */
   margin-bottom: 8px;
 }
@@ -75,16 +74,18 @@ label {
 }
 
 .submit {
-  background: #5bb4b7; /* Accent color */
-  border-radius: 8px;
-  border: none;
-  color: #fff;
-  font-size: 18px;
-  transition: 0.3s;
-  padding: 14px; /* Increased padding */
-  cursor: pointer;
+    background: black;
+    border-radius: 30px;
+    border: none;
+    color: #FFFFFF;
+    font-size: 18px;
+    transition: 0.3s ease;
+    padding: 8px 16px;
+    opacity: 0.7;
 }
 
 .submit:hover {
-  background: #4a9ca0; /* Darker accent color on hover */
+    padding: 8px 24px;
+    opacity: 1;
+    scale: 1.1;
 }
