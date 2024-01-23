@@ -37,49 +37,51 @@ class Data extends Component {
       <div className={`${style.main}`}>
         <div className={`${style.body}`}>
           <div className={`${style.box}`}>
-            <form id="productForm" className={`${style.form}`} onSubmit={this.submitHandler}>
-              <h1 className={`${style.h1}`}>Add Product</h1>
+            <form className={`${style.form}`} onSubmit={this.submitHandler}>
+              <div className={`${style.divContainer}`}>
+                <h1 className={`${style.h1}`}>Add Product</h1>
 
-              {errorMessage && (
-                <div className={`${style.error}`}>
-                  <p>{errorMessage}</p>
+                {errorMessage && (
+                  <div className={`${style.error}`}>
+                    <p>{errorMessage}</p>
+                  </div>
+                )}
+
+                <div className={`${style.inputContainer}`}>
+                  <label htmlFor="productName">Product Name:</label>
+                  <input name="productName" className={`${style.input}`} placeholder="Product Name" required />
                 </div>
-              )}
 
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productName">Product Name:</label>
-                <input name="productName" className={`${style.input}`} placeholder="Product Name" required />
+                <div className={`${style.inputContainer}`}>
+                  <label htmlFor="productCount">Product Count:</label>
+                  <input name="productCount" type="number" className={`${style.input}`} placeholder="Product Count" required />
+                </div>
+
+                <div className={`${style.inputContainer}`}>
+                  <label htmlFor="shelf">Shelf:</label>
+                  <Select 
+                    name="shelf"
+                    options={shelves}
+                    className={`${style.input}`}
+                    styles={customStyle}
+                    required
+                  />
+                </div>
+
+                <div className={`${style.inputContainer}`}>
+                  <label htmlFor="productPrice">Product Price:</label>
+                  <input name="productPrice" type="number" step="0.01" className={`${style.input}`} placeholder="Product Price" required />
+                </div>
+
+                <div className={`${style.inputContainer}`}>
+                  <label htmlFor="productImg">Product Image URL:</label>
+                  <input name="productImg" className={`${style.input}`} placeholder="Product Image URL" required />
+                </div>
+
+                <button type="submit" className={`${style.submit}`}>
+                  Add Product
+                </button>
               </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productCount">Product Count:</label>
-                <input name="productCount" type="number" className={`${style.input}`} placeholder="Product Count" required />
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="shelf">Shelf:</label>
-                <Select 
-                  name="shelf"
-                  options={shelves}
-                  className={`${style.input}`}
-                  styles={customStyle}
-                  required
-                />
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productPrice">Product Price:</label>
-                <input name="productPrice" type="number" step="0.01" className={`${style.input}`} placeholder="Product Price" required />
-              </div>
-
-              <div className={`${style.inputContainer}`}>
-                <label htmlFor="productImg">Product Image URL:</label>
-                <input name="productImg" className={`${style.input}`} placeholder="Product Image URL" required />
-              </div>
-
-              <button type="submit" className={`${style.submit}`}>
-                Add Product
-              </button>
             </form>
           </div>
         </div>
