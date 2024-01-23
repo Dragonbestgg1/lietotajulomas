@@ -1,10 +1,6 @@
 /* reports.module.css */
 
 /* General Styles */
-body {
-  margin: 0;
-  font-family: 'Roboto', sans-serif;
-}
 
 .main {
   display: flex;
@@ -18,61 +14,33 @@ body {
   margin: 20px;
   padding: 20px;
   border-radius: 15px;
-  background-color: #5bb4b7;
-  box-shadow: 7px 7px #509c9e;
+  background-color: white;
+  box-shadow: 7px 7px rgba(142, 142, 142, 0.73);
 }
 
 /* Table Styles */
-table {
+.table {
   width: 100%;
-  border-collapse: collapse;
   margin-bottom: 20px;
   overflow: hidden;
   border-radius: 10px;
 }
 
-th, td {
+.table > div {
+  display: flex;
+  justify-content: space-around;
   border: 1px solid #ddd;
   padding: 12px;
   text-align: left;
 }
 
-th {
-  background-color: #3abfc4;
-  color: #333;
+.table > div > div {
+  flex: 1;
 }
 
 .image {
   max-width: 100px;
   border-radius: 8px;
-}
-
-/* Input Styles */
-input {
-  width: 50px;
-  padding: 10px;
-  border: 1px solid #3abfc4;
-  border-radius: 8px;
-  margin-left: 10px;
-  transition: 0.3s;
-  background-color: #3abfc4;
-}
-
-input:focus {
-  outline: none;
-  border-color: #5bb4b7;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Typography */
-h1, h2 {
-  color: #333;
-  margin-bottom: 20px;
-}
-
-p {
-  color: #555;
-  margin-bottom: 10px;
 }
 
 /* Responsive adjustments */
@@ -82,8 +50,7 @@ p {
     padding: 10px;
   }
 
-  input {
-    width: 40px;
+  .table > div {
     padding: 8px;
   }
 }

@@ -54,7 +54,7 @@ function ChatBox() {
         </select>
       <div className={styles.messages}>
         {messages.map((message, index) => (
-          <p key={index}>{message.message}</p>
+          <p key={index}><strong>{message.from}:</strong> {message.message}</p>
         ))}
       </div>
       <div className={`${styles.send}`}>

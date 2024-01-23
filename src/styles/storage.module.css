@@ -265,6 +265,7 @@
     background-color: white;
     overflow: auto;
     overflow-x: hidden;
+    box-shadow: gray;
 }
 .modalDel{
     height: 30%;

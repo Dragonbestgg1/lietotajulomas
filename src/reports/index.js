@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import style from "../styles/reports.module.css";
 import axios from 'axios';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 
 function Reports() {
   const [items, setItems] = useState([]);
@@ -8,110 +10,177 @@ function Reports() {
   const [priceTotal, setPriceTotal] = useState(0);
   const [deliveredTotal, setDeliveredTotal] = useState(0);
   const [days, setDays] = useState(7);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [companyReport, setCompanyReport] = useState([]);
+  const pdfRef = useRef();
 
+  
   useEffect(() => {
-   
+    if (startDate && endDate) {
+      axios.get(`/report?startDate=${startDate}&endDate=${endDate}`)
+        .then(response => {
+          console.log(response.data);
+          
+          // items
+          const itemsData = response.data.items;
+          if (itemsData) {
+            setItems(itemsData);
+            setPriceTotal(itemsData.total_cost);
+          }
 
-    axios.get('/report?days=' + days)
-    .then(response => {
-      console.log(response.data);
-      
-      // items
-      const itemsData = response.data.items;
-      if (itemsData) {
-        setItems(itemsData);
-        setPriceTotal(itemsData.total_cost);
-      }
+          // orders
+          if (response.data.orders) {
+            setOrders(response.data.orders);
+            setDeliveredTotal(response.data.delivered_total);
 
-      // orders
-      if (response.data.orders) {
-        setOrders(response.data.orders);
-        setDeliveredTotal(response.data.delivered_total);
-      }
-    })
-    .catch(error => {
-      console.error('Error fetching items:', error);
-    });
+            // Generate company report
+            const companyData = {};
+            response.data.orders.forEach(order => {
+              const companyId = order.company_id;
+              if (!companyData[companyId]) {
+                companyData[companyId] = {
+                  companyName: order.company_name,
+                  totalQuantity: 0,
+                  totalCost: 0,
+                };
+              }
+              companyData[companyId].totalQuantity += 1; // Assuming each order is one item
+              companyData[companyId].totalCost += order.item_price;
+            });
+            setCompanyReport(Object.values(companyData));
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching items:', error);
+        });
+    }
+  }, [startDate, endDate]);
 
-    
-  }, [days]);
+  const handleChangeStartDate = (e) => {
+    setStartDate(e.target.value);
+  };
 
-  const handleChangeDays = (e) => {
-    setDays(e.target.value);
+  const handleChangeEndDate = (e) => {
+    setEndDate(e.target.value);
+  };
+
+  const generatePdf = () => {
+    if (pdfRef.current) {
+      html2canvas(pdfRef.current)
+        .then((canvas) => {
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF();
+          const imgWidth = 210;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.save('report.pdf');
+        });
+    }
   };
 
   return (
     <div className={`${style.main}`}>
-      <div className={style.reportsContainer}>
-        <h1>Reports</h1>
-        <label>
-          Days before:
-          <input type="number" value={days} onChange={handleChangeDays} />
-        </label>
+      <div className={style.reportsContainer} ref={pdfRef}>
+        <div>
+          <div>
+            <h1>Reports</h1>
+          </div>
+          <div>
+            <label>
+              Start Date:
+              <div>
+                <input type="date" value={startDate} onChange={handleChangeStartDate} />
+              </div>
+            </label>
+          </div>
+          <div>
+            <label>
+              End Date:
+              <div>
+                <input type="date" value={endDate} onChange={handleChangeEndDate} />
+              </div>
+            </label>
+          </div>
+        </div>
 
         {/* Display Items Table */}
         <div>
           <h2>Items Table</h2>
-          <table className={style.table}>
+          <div className={style.table}>
             {/* Table header */}
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Image</th>
-              </tr>
-            </thead>
+            <div>
+              <div>ID</div>
+              <div>Name</div>
+              <div>Price</div>
+              <div>Image</div>
+            </div>
             {/* Table body */}
-            <tbody>
+            <div>
               {items && Object.values(items).map(item => (
-                <tr key={item.id}>
-                  <td>{item.id}</td>
-                  <td>{item.name}</td>
-                  <td>{item.price}</td>
-                  <td>
+                <div key={item.id}>
+                  <div>{item.id}</div>
+                  <div>{item.name}</div>
+                  <div>{item.price}</div>
+                  <div>
                     <img src={item.image_url} alt={item.name} className={style.image} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  </div>
+                </div>
+              ))}    
+            </div>
+          </div>
           {/* Total cost */}
-          <p>Total Cost: {priceTotal}</p>
+          <div>Total Cost: {priceTotal}</div>
         </div>
 
         {/* Display Orders Table */}
         <div>
           <h2>Orders Table</h2>
-          <table className={style.table}>
+          <div className={style.table}>
             {/* Table header */}
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Item ID</th>
-                <th>Postal Code</th>
-                <th>Country</th>
-                <th>City</th>
-                <th>Delivered</th>
-              </tr>
-            </thead>
+            <div>
+              <div>ID</div>
+              <div>Item ID</div>
+              <div>Postal Code</div>
+              <div>Country</div>
+              <div>City</div>
+              <div>Delivered</div>
+            </div>
             {/* Table body */}
-            <tbody>
+            <div>
               {orders.map(order => (
-                <tr key={order.id}>
-                  <td>{order.id}</td>
-                  <td>{order.item_id}</td>
-                  <td>{order.postal_code}</td>
-                  <td>{order.country}</td>
-                  <td>{order.city}</td>
-                  <td>{order.delivered ? 'Yes' : 'No'}</td>
-                </tr>
+                <div key={order.id}>
+                  <div>{order.id}</div>
+                  <div>{order.item_id}</div>
+                  <div>{order.postal_code}</div>
+                  <div>{order.country}</div>
+                  <div>{order.city}</div>
+                  <div>{order.delivered ? 'Yes' : 'No'}</div>
+                </div>
               ))}
-            </tbody>
-          </table>
+            </div>
+            <h2>Company Summary Report</h2>
+            {/* Table header */}
+            <div>
+              <div>Company Name</div>
+              <div>Total Quantity</div>
+              <div>Total Cost</div>
+            </div>
+            {/* Table body */}
+            <div>
+              {companyReport.map(company => (
+                <div key={company.companyName}>
+                  <div>{company.companyName}</div>
+                  <div>{company.totalQuantity}</div>
+                  <div>{company.totalCost}</div>
+                </div>
+              ))}
+            </div>
+          </div>
           {/* Total price and delivered */}
-          <p>Total Price: {priceTotal}</p>
-          <p>Total Delivered: {deliveredTotal}</p>
+          <div>Total Price: {priceTotal}</div>
+          <div>Total Delivered: {deliveredTotal}</div>
+          <button onClick={generatePdf}>Generate PDF</button>
         </div>
       </div>
     </div>
