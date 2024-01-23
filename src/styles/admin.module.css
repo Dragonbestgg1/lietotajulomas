@@ -16,7 +16,6 @@ table {
 }
 
 table, td, th {
-  border: 4px solid black;
   padding: 8px;
 }
 
@@ -64,7 +63,6 @@ input[type="text"] {
   color: white;
 }
 .th td{
-  border: 3px solid black;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -106,8 +104,4 @@ input[type="text"] {
   border-radius: 10px;
   cursor: pointer;
   transition-duration: 0.4s;
-}
-
-select:not(:-internal-list-box) {
-  border: 5px solid black;
 }
