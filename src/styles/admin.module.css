@@ -67,3 +67,16 @@ input[type="text"] {
   flex-direction: row;
   justify-content: space-between;
 }
+.column{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
