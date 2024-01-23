@@ -41,19 +41,35 @@ function Admin() {
                 return 'Unknown';
         }
     }
-
+    const roleToPrivilage = (role) => {
+        switch(role) {
+            case 'Admin':
+                return 2;
+            case 'Warehouse Worker':
+                return 1;
+            case 'Shelf Sorter':
+                return 0;
+            default:
+                return -1;
+        }
+    }
+    
     const handlePrivilageChange = (event, user) => {
         if (user.token === loggedInUserToken) {
             setSubmitMessage('You cannot change your own privilege.');
             return;
         }
-
-        const updatedPrivilage = Number(event.target.value);
-
-        axios.put(`/users/${user.id}`, {
-            password: user.password,  
-            privilage: updatedPrivilage
-        })
+    
+        const updatedPrivilage = Number(event.target.value);  // directly use the number
+    
+        const data = {
+            password: user.password,  // send the existing password
+            privilage: updatedPrivilage  // send the privilege number
+        };
+    
+        console.log('Sending request with data:', data);  // print the data being sent
+    
+        axios.put(`/users/${user.id}`, data)
         .then(response => {
             console.log('User updated:', response.data);
             setSubmitMessage('User updated successfully!');
@@ -63,7 +79,7 @@ function Admin() {
             setSubmitMessage('Error updating user.');
         });
     }
-
+    
     const handleAddUser = () => {
         if (!newUser.username || !newUser.password) {
             setSubmitMessage('Please fill in all fields.');
