@@ -52,6 +52,18 @@ function Storage(){
             borderRadius: '10px',
         }),
     };
+    const customStyle1 = {
+        control: (provided, state) => ({
+            ...provided,
+            minHeight: '30px',
+            height: '100%',
+            width: '250px',
+            minWidth: '150px',
+            alignItems: 'center',
+            boxShadow: state.isFocused ? null : null,
+            borderRadius: '10px',
+        }),
+    };
     const filterOption = (option, inputValue) => {
         return (
             option.label.toLowerCase().includes(inputValue.toLowerCase()) ||
@@ -183,7 +195,7 @@ function Storage(){
             </div>
             {showInput && ( 
                 <form className={`${style.make}`} onSubmit={handleAddShelf}>
-                    <input type="text" className={`${style.input}`} placeholder="Enter shelf name" value={newShelfName} onChange={(e) => setNewShelfName(e.target.value)} />
+                    <input type="text" className={`${style.input1}`} placeholder="Enter shelf name" value={newShelfName} onChange={(e) => setNewShelfName(e.target.value)} />
                     <input type="submit" className={`${style.but}`} value="Submit" />
                     {message && <div className={`${style.err}`}>{message}</div>} 
                 </form>
@@ -245,7 +257,7 @@ function Storage(){
                                         options={shelves}
                                         isSearchable
                                         placeholder="Choose shelf"
-                                        styles={customStyle}
+                                        styles={customStyle1}
                                         filterOption={filterOption}
                                         value={shelves.find(option => option.value === product.shelf_id)}
                                         onChange={(option) => setEditProduct(editProduct.map((it, idx) => idx === index ? {...it, shelf_id: option.value} : it))}
