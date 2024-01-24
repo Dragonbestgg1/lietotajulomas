@@ -143,7 +143,6 @@ function Admin() {
             <table>
                 <tr>
                     <th className={`${style.th}`}>Name
-                        <button onClick={() => setShowModal(!showModal)}>+</button>
                         <button className={`${style.butAdd}`} onClick={() => setShowModal(!showModal)}>+</button>
                     </th>
                     <th>Role</th>
