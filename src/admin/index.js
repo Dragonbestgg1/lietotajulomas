@@ -151,7 +151,7 @@ function Admin() {
                     <tr key={index}>
                         <td>{user.username}</td>
                         <td className={`${style.th}`}>
-                            <select value={user.privilage} onChange={(event) => handlePrivilageChange(event, user)}>
+                            <select value={user.privilage} className={`${style.drop}`} onChange={(event) => handlePrivilageChange(event, user)}>
                                 <option value={user.privilage}>{getRole(user.privilage)}</option>
                                 {user.privilage !== 2 && <option value="2">Admin</option>}
                                 {user.privilage !== 1 && <option value="1">Warehouse Worker</option>}
@@ -177,7 +177,7 @@ function Admin() {
                 </Modal>
             )}
             {userToDelete && (
-                <Modal isOpen={!!userToDelete} onRequestClose={() => setUserToDelete(null)}>
+                <Modal className={`${style.modal}`} isOpen={!!userToDelete} onRequestClose={() => setUserToDelete(null)}>
                     <h2>Are you sure you want to delete this user?</h2>
                     <button className={`${style.butCon}`} onClick={confirmDeleteUser}>Yes</button>
                     <button className={`${style.butCan}`} onClick={() => setUserToDelete(null)}>No</button>
