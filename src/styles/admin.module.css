@@ -144,8 +144,32 @@ select:not(:-internal-list-box) {
   transition-duration: 0.4s;
 }
 .butCon{
- 
+  background-color: white;
+  color: red;
+  width: 25%;
+  height: 7%;
+  border: none;
+  border-radius: 20px;
+  transition: 0.3s ease;
 }
 .butCan{
- 
+  background-color: white;
+  color: lime;
+  width: 25%;
+  height: 7%;
+  border: none;
+  border-radius: 20px;
+  transition: 0.3s ease;
+}
+.butCon:hover{
+  background-color: red;
+  color: white;
+}
+.butCan:hover{
+  background-color: lime;
+  color: white;
+}
+.drop{
+  background-color: black;
+  color: white;
 }
