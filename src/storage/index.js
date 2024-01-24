@@ -143,7 +143,7 @@ function Storage(){
                 console.log(response);
                 setIsConfirmModalOpen(false);
                 setItems(items.map(item => item.shelf_id === editShelfId ? {...item, shelf_id: 0} : item));
-                setEditShelfId(null); // reset the shelfId after deletion
+                setEditShelfId(null);
             })
             .catch(error => {
                 console.error('There was an error!', error);
@@ -338,7 +338,6 @@ function Storage(){
                         }}>Delete item</button>
                     </Modal>
                 )}
-
                 {isConfirmItemModalOpen && (
                     <Modal isOpen={isConfirmItemModalOpen} onRequestClose={() => setIsConfirmItemModalOpen(false)} className={`${style.modalDel}`}>
                         <h2>Are you sure you want to delete this item?</h2>
