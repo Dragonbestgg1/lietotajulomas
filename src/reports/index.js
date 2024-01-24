@@ -20,7 +20,7 @@ function Reports() {
     if (startDate && endDate) {
       axios.get(`/report?startDate=${startDate}&endDate=${endDate}`)
         .then(response => {
-          console.log(response.data);
+          //console.log(response.data);
           
           // items
           const itemsData = response.data.items;
@@ -52,7 +52,7 @@ function Reports() {
           }
         })
         .catch(error => {
-          console.error('Error fetching items:', error);
+          //console.error('Error fetching items:', error);
         });
     }
   }, [startDate, endDate]);
@@ -113,6 +113,7 @@ function Reports() {
               <div>ID</div>
               <div>Name</div>
               <div>Price</div>
+              <div>Total</div>
               <div>Image</div>
             </div>
             {/* Table body */}
@@ -121,6 +122,7 @@ function Reports() {
                 <div key={item.id}>
                   <div>{item.id}</div>
                   <div>{item.name}</div>
+                  <div>{item.total}</div>
                   <div>{item.price}</div>
                   <div>
                     <img src={item.image_url} alt={item.name} className={style.image} />
