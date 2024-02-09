@@ -10,6 +10,10 @@ function Admin() {
     const [newUser, setNewUser] = useState({username: '', password: '', privilage: 0});
     const [showModal, setShowModal] = useState(false);
     const [userToDelete, setUserToDelete] = useState(null);
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
+
 
     useEffect(() => {
         axios.get('/users')
@@ -83,6 +87,16 @@ function Admin() {
     const handleAddUser = () => {
         if (!newUser.username || !newUser.password) {
             setSubmitMessage('Please fill in all fields.');
+
+            if (!newUser.username) {
+                setUsernameError('Username is required');
+                return;
+            }
+            if (!newUser.password) {
+                setPasswordError('Password is required');
+                return;
+            }
+
             return;
         }
 
@@ -167,7 +181,9 @@ function Admin() {
             {showModal && (
                 <Modal isOpen={showModal} className={`${style.modal}`} onRequestClose={() => setShowModal(false)}>{/*Te var izmerus pasam modal ietaisit. stili ir pie className pec style. kas ir rakstits ta ir stila klase*/}
                     <input type="text" value={newUser.username} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, username: e.target.value})} placeholder="Enter new user name" />
+                    {usernameError && <div className={`${style.error}`}>{usernameError}</div>}
                     <input type="password" value={newUser.password} className={`${style.input}`} onChange={(e) => setNewUser({...newUser, password: e.target.value})} placeholder="Enter new user password" />
+                    {passwordError && <div className={`${style.error}`}>{passwordError}</div>}
                     <select value={newUser.privilage} onChange={(e) => setNewUser({...newUser, privilage: Number(e.target.value)})}>
                         <option value="2">Admin</option>
                         <option value="1">Warehouse Worker</option>
